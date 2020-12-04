@@ -1,0 +1,21 @@
+<ng-http-loader
+  [backdrop]="true"
+  [debounceDelay]="100"
+  [spinner]="spinnerStyle.skThreeBounce"
+></ng-http-loader>
+<ng-container *ngIf="authService.currentUserValue != null; else notLoggedIn">
+  <div class="page-wrapper chiller-theme toggled">
+    <a id="show-sidebar" class="btn btn-sm btn-dark">
+      <i class="fas fa-bars"></i>
+    </a>
+    <app-nav></app-nav>
+    <main class="page-content">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</ng-container>
+<ng-template #notLoggedIn>
+  <router-outlet></router-outlet>
+</ng-template>

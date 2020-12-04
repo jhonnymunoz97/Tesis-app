@@ -1,0 +1,109 @@
+<nav
+  id="sidebar"
+  class="sidebar-wrapper"
+  *ngIf="authService.currentUserValue as user"
+>
+  <div class="sidebar-content">
+    <div class="sidebar-brand">
+      <div class="container-fluid">
+        <img src="{{ environment.apiUrl + '/img/logoh.png' }}" class="w-100" />
+      </div>
+      <div id="close-sidebar">
+        <i class="fa fa-times"></i>
+      </div>
+    </div>
+    <div class="sidebar-header">
+      <div class="user-pic">
+        <img
+          class="img-responsive img-rounded"
+          src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+          alt="User picture"
+        />
+      </div>
+      <div class="user-info">
+        <span class="user-name">
+          {{ user.name }}
+          <br />
+          <strong>
+            {{ user.surname }}
+          </strong>
+        </span>
+        <span class="user-role">
+          {{ user.role }}
+        </span>
+        <span class="user-status">
+          <i class="fa fa-circle"></i>
+          <span>Online</span>
+        </span>
+      </div>
+    </div>
+    <!-- sidebar-header  -->
+    <div class="sidebar-menu">
+      <ul>
+        <li class="header-menu">
+          <span>General</span>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/inicio']" routerLinkActive="active">
+            <i class="fa fa-tachometer-alt"></i>
+            <span>Inicio</span>
+          </a>
+        </li>
+        <!-- TODO: Súper Usuario -->
+        <ng-container
+          *ngIf="
+            authService.currentUserValue.role === 'Administrador';
+            else noSuperUser
+          "
+        >
+          <li class="header-menu">
+            <span>Súper Usuario</span>
+          </li>
+          <li class="sidebar-dropdown" routerLinkActive="active">
+            <a>
+              <i class="fa fa-th-list"></i>
+              <span>Carreras</span>
+            </a>
+            <div class="sidebar-submenu" routerLinkActive="active">
+              <ul>
+                <li>
+                  <a
+                    [routerLink]="['/carreras-actual']"
+                    routerLinkActive="active"
+                  >
+                    Período Actual
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/carreras']" routerLinkActive="active">
+                    Todas
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ng-container>
+        <ng-template #noSuperUser> </ng-template>
+      </ul>
+    </div>
+    <!-- sidebar-menu  -->
+  </div>
+  <!-- sidebar-content  -->
+  <div class="sidebar-footer">
+    <!-- <a href="#">
+      <i class="fa fa-bell"></i>
+      <span class="badge badge-pill badge-warning notification">3</span>
+    </a>
+    <a href="#">
+      <i class="fa fa-envelope"></i>
+      <span class="badge badge-pill badge-success notification">7</span>
+    </a>
+    <a href="#">
+      <i class="fa fa-cog"></i>
+      <span class="badge-sonar"></span>
+    </a> -->
+    <a href="#" (click)="authService.logout()">
+      Salir <i class="fa fa-sign-out"></i>
+    </a>
+  </div>
+</nav>

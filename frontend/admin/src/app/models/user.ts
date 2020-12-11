@@ -9,4 +9,6 @@ export class User {
   role: string;
   // tslint:disable-next-line: variable-name
   access_token?: any;
+  // tslint:disable-next-line: variable-name
+  last_login?: any;
 }

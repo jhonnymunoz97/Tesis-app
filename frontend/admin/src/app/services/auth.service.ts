@@ -47,8 +47,4 @@ export class AuthService {
     } catch (error) {}
     window.location.reload();
   }
-
-  test() {
-    return this.http.get<any>(environment.apiUrl + '/test');
-  }
 }

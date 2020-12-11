@@ -7,7 +7,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    const ROLE_ADMIN = 'Administrador';
+    const ROLE_SUPER_USER = 'Súper Usuario';
+    const ROLE_DRIVER = 'Conductor';
     const ROLE_USER = 'Usuario';
     /**
      * The attributes that are mass assignable.

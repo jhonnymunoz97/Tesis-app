@@ -52,31 +52,31 @@
         <!-- TODO: Súper Usuario -->
         <ng-container
           *ngIf="
-            authService.currentUserValue.role === 'Administrador';
+            authService.currentUserValue.role === 'Súper Usuario';
             else noSuperUser
           "
         >
           <li class="header-menu">
-            <span>Súper Usuario</span>
+            <span>{{ authService.currentUserValue.role }}</span>
           </li>
           <li class="sidebar-dropdown" routerLinkActive="active">
             <a>
               <i class="fa fa-th-list"></i>
-              <span>Carreras</span>
+              <span>Conductores</span>
             </a>
             <div class="sidebar-submenu" routerLinkActive="active">
               <ul>
                 <li>
                   <a
-                    [routerLink]="['/carreras-actual']"
+                    [routerLink]="['/drivers-live']"
                     routerLinkActive="active"
                   >
-                    Período Actual
+                    En línea
                   </a>
                 </li>
                 <li>
-                  <a [routerLink]="['/carreras']" routerLinkActive="active">
-                    Todas
+                  <a [routerLink]="['/drivers']" routerLinkActive="active">
+                    Todos
                   </a>
                 </li>
               </ul>

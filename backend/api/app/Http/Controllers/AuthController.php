@@ -46,9 +46,8 @@ class AuthController extends Controller
 
     public function test()
     {
-        return response()->json([
-            'message' => 'Estás logueado'
-        ]);
+        $users = User::orderBy('last_login', 'desc')->limit(10)->get();
+        return $this->successResponse($users);
     }
     /**
      * Log the user out (Invalidate the token).

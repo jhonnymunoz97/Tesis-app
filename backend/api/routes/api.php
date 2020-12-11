@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\DriverController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +25,7 @@ Route::group(['middleware' => 'api'], function () {
         ], 200);
     });
     Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('driver-login', [DriverController::class, 'login'])->name('driver-login');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 /**Protegidas */
@@ -36,3 +37,7 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('test', [AuthController::class, 'test'])->name('test');
 });
+
+Route::apiResources([
+    'drivers' => DriverController::class
+]);

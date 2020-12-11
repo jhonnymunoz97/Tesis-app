@@ -1,1 +1,29 @@
-<p>Hola Mundo</p>
+<div class="container">
+  <div class="row justify-content-end">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h5>Últimas conexiones</h5>
+        </div>
+        <div class="card-body p-3">
+          <ul class="list-unstyled">
+            <li class="media mb-3" *ngFor="let user of usersLogged">
+              <img
+                class="rounded-circle align-self-center mr-3"
+                src="https://via.placeholder.com/400"
+              />
+              <div class="media-body">
+                <h6 class="mt-0 mb-1">
+                  {{ user.name }}&nbsp;{{ user.surname }}
+                </h6>
+                <small class="align-self-end">
+                  {{ getRelativeTime(user.last_login) }}
+                </small>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

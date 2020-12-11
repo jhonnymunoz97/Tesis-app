@@ -12,8 +12,10 @@ import { PageNotFoundComponent } from './components/shared/page-not-found/page-n
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { NavComponent } from './components/layout/nav/nav.component';
-import { CarrerasComponent } from './components/admin/carreras/carreras.component';
-import { NotAuthorizedComponent } from './components/shared/not-authorized/not-authorized.component'; // <============
+import { NotAuthorizedComponent } from './components/shared/not-authorized/not-authorized.component';
+import { DriversComponent } from './components/admin/drivers/drivers.component';
+import { DriversLiveComponent } from './components/admin/drivers-live/drivers-live.component'; // <============
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -22,8 +24,9 @@ import { NotAuthorizedComponent } from './components/shared/not-authorized/not-a
     HomeComponent,
     PageNotFoundComponent,
     NavComponent,
-    CarrerasComponent,
     NotAuthorizedComponent,
+    DriversComponent,
+    DriversLiveComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import { NotAuthorizedComponent } from './components/shared/not-authorized/not-a
     HttpClientModule,
     ReactiveFormsModule,
     NgHttpLoaderModule.forRoot(), // <============ Don't forget to call 'forRoot()'!
+    DataTablesModule,
   ],
   providers: [
     {

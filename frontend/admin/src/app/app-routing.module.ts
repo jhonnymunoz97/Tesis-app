@@ -1,6 +1,7 @@
+import { DriversLiveComponent } from './components/admin/drivers-live/drivers-live.component';
+import { DriversComponent } from './components/admin/drivers/drivers.component';
 import { NotAuthorizedComponent } from './components/shared/not-authorized/not-authorized.component';
 import { AdminGuard } from './guards/admin.guard';
-import { CarrerasComponent } from './components/admin/carreras/carreras.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -17,8 +18,13 @@ const routes: Routes = [
   },
   { path: 'inicio', component: HomeComponent, canActivate: [AuthGuard] },
   {
-    path: 'carreras',
-    component: CarrerasComponent,
+    path: 'drivers',
+    component: DriversComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'drivers-live',
+    component: DriversLiveComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
   { path: 'login', component: LoginComponent },

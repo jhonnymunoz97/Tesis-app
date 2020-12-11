@@ -8,10 +8,15 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authenticationService: AuthService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -20,17 +25,30 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         console.log(err);
-        if (err.status === 401) {
+        if (err.status === 401 || err.status === 500) {
           // auto logout if 401 response returned from api
           this.authenticationService.logout();
           window.location.reload();
+        } else if (err.status === 403) {
+          this.router.navigate(['/not-authorized']);
         }
-        const error = err.error.messages || err.error.message || err.statusText;
-        if (Array.isArray(error)) {
-          return throwError(error);
-        } else {
-          return throwError([error]);
+        let error = err.error.messages || err.error.message || err.statusText;
+        if (!Array.isArray(error)) {
+          error = [error];
         }
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Error',
+          html: error.reduce((html, item) => {
+            return html + item + '<br/>';
+          }, ''),
+          showConfirmButton: false,
+          timer: 2500,
+          width: 300,
+        });
+        console.log(error);
+        return throwError(error);
       })
     );
   }

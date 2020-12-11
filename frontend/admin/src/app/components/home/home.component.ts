@@ -1,6 +1,8 @@
-import { AuthService } from './../../services/auth.service';
+import { Response } from './../../models/response';
+import { UserService } from './../../services/user.service';
+import { User } from './../../models/user';
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
+import * as moment from 'moment'; // add this 1 of 4
 
 @Component({
   selector: 'app-home',
@@ -8,22 +10,24 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  data: any;
-
-  constructor(private sv: AuthService) {}
-
-  ngOnInit(): void {}
-
-  test() {
-    this.sv
-      .test()
-      .pipe(first())
-      .subscribe((data) => {
-        console.log(data);
-        this.data = data;
-      });
+  usersLogged: User[] = [];
+  constructor(private userService: UserService) {
+    moment.locale('es-MX');
   }
-  logout() {
-    this.sv.logout();
+
+  ngOnInit(): void {
+    this.getLastLoggedUsers();
+  }
+
+  getLastLoggedUsers() {
+    this.userService.getLastsLoggedUsers().subscribe((response: Response) => {
+      response.data.forEach((user: User) => {
+        this.usersLogged.push(user);
+      });
+    });
+  }
+
+  getRelativeTime(timestamp) {
+    return moment(timestamp).startOf('minutes').fromNow();
   }
 }

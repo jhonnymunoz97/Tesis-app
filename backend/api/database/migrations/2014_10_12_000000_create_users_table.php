@@ -25,8 +25,9 @@ class CreateUsersTable extends Migration
             $table->boolean('verified')->default(false);
             $table->dateTime('last_login')->nullable();
             $table->enum('role', [
-                User::ROLE_USER,
-                User::ROLE_ADMIN
+                User::ROLE_SUPER_USER,
+                User::ROLE_DRIVER,
+                User::ROLE_USER
             ])->default(User::ROLE_USER);
             $table->timestamps();
         });
@@ -37,7 +38,7 @@ class CreateUsersTable extends Migration
             'surname' => 'Quiroz Candela',
             'email' => 'guirudj007@gmail.com',
             'password' => Hash::make('29011998@Angel'),
-            'role' => User::ROLE_ADMIN,
+            'role' => User::ROLE_SUPER_USER,
         ]);
     }
 

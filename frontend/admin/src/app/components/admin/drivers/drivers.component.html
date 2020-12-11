@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <table
+    datatable
+    [dtOptions]="dtOptions"
+    [dtTrigger]="dtTrigger"
+    class="row-border hover text-center"
+  >
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Identificación</th>
+        <th>Apellidos</th>
+        <th>Nombres</th>
+        <th>Verificado?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of drivers">
+        <td>{{ person.id }}</td>
+        <td>{{ person.dni }}</td>
+        <td>{{ person.apellidos }}</td>
+        <td>{{ person.nombres }}</td>
+        <ng-container *ngIf="person.verificado; else noVerificado">
+          <td>
+            <i
+              class="fa fa-check rounded rounded-circle border border-success text-success p-1"
+              aria-hidden="true"
+            ></i>
+          </td>
+        </ng-container>
+        <ng-template #noVerificado>
+          <td>
+            <i
+              class="fa fa-times rounded rounded-circle border border-danger text-danger p-1"
+              aria-hidden="true"
+            ></i>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+</div>

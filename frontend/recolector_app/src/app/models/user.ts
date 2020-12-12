@@ -2,6 +2,8 @@ export class User {
   // tslint:disable-next-line: variable-name
   id: number;
   dni: string;
+  licencia: string;
+  telefono: string;
   name: string;
   surname: string;
   email: string;

@@ -8,17 +8,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Driver extends Authenticatable implements JWTSubject
 {
+    protected $table = 'drivers';
     use HasFactory;
 
     protected $fillable = [
         'dni',
-        'nombres',
-        'apellidos',
+        'name',
+        'surname',
         'email',
         'telefono',
         'licencia',
         'password',
-        'verificado',
+        'verified',
         'last_login'
     ];
 

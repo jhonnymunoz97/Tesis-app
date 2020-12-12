@@ -36,7 +36,7 @@ class DriverController extends Controller
         $driver->last_login = Carbon::now();
         $driver->save();
         $driver->access_token = $token;
-        return $this->successResponse($driver);
+        return $this->successResponse($driver->fresh());
     }
 
 
@@ -46,15 +46,6 @@ class DriverController extends Controller
         return $this->successResponse(Driver::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -67,15 +58,9 @@ class DriverController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Driver  $driver
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Driver $driver)
+    public function show($driver)
     {
-        //
+        return $this->successResponse(Driver::findOrFail($driver));
     }
 
     /**

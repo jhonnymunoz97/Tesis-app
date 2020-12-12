@@ -10,13 +10,10 @@ import { Component, OnInit } from "@angular/core";
 export class Tab3Page implements OnInit {
   name: string;
   user: User;
-  constructor(protected authService: AuthService) {}
+  constructor(public authService: AuthService) {}
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    this.name =
-      this.authService.currentUserValue.name +
-      " " +
-      this.authService.currentUserValue.surname;
+    this.name = this.authService.currentUserValue.name + " " + this.authService.currentUserValue.surname;
     console.log(this.user);
   }
 }

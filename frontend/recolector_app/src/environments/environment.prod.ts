@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  apiURL: "https://tesis.cicmanabi.com/",
+  production: true,
 };

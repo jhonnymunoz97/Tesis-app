@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Recorrido
-    </ion-title>
+    <ion-title> Recorrido </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,6 +10,10 @@
       <ion-title size="large">Recorrido</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  
+  <div id="map_canvas"></div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="loadMap()" [attr.color]="color">
+      <ion-icon name="pin"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

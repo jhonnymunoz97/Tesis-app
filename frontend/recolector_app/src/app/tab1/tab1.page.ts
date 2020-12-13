@@ -18,11 +18,11 @@ import { LoadingController, ToastController, Platform } from "@ionic/angular";
   styleUrls: ["tab1.page.scss"],
 })
 export class Tab1Page implements OnInit {
-  color = "danger";
+  color = "success";
   options: GoogleMapOptions = {
     camera: {
       target: new LatLng(-1.05458, -80.45445),
-      zoom: 15,
+      zoom: 13,
     },
     controls: {
       compass: true,
@@ -33,10 +33,21 @@ export class Tab1Page implements OnInit {
       mapToolbar: true, // android only
     },
     building: true,
+    gestures: {
+      scroll: true,
+      tilt: true,
+      zoom: true,
+      rotate: false,
+    },
   };
   map: GoogleMap;
   loading: any;
-  constructor(public loadingCtrl: LoadingController, public toastCtrl: ToastController, private platform: Platform) {}
+  constructor(
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    private platform: Platform,
+    private toastController: ToastController
+  ) {}
   async ngOnInit() {
     // Debido ngOnInit() inicia antes del evento
     // deviceready, debemos detectar cuando este evento se
@@ -45,20 +56,51 @@ export class Tab1Page implements OnInit {
     this.map = GoogleMaps.create("map_canvas", this.options);
   }
 
-  loadMap() {
-    this.color = "success";
-    LocationService.getMyLocation().then((myLocation: MyLocation) => {
+  async iniciar() {
+    this.color = "danger";
+    await LocationService.getMyLocation().then(async (myLocation: MyLocation) => {
+      const cameraPos: CameraPosition<ILatLng> = {
+        target: { lat: myLocation.latLng.lat, lng: myLocation.latLng.lng },
+        zoom: 20,
+      };
+      this.map.animateCamera(cameraPos);
+      const toast = await this.toastController.create({
+        message: "Enviando ubicación en tiempo real",
+        duration: 8500,
+        position: "top",
+        translucent: true,
+      });
+      toast.present();
+    });
+    function delay(t) {
+      return new Promise((resolve) => setTimeout(resolve, t));
+    }
+
+    async function* interval(t) {
+      while (true) {
+        const now = Date.now();
+        yield "hello";
+        await delay(now - Date.now() + t);
+      }
+    }
+
+    for await (const greeting of interval(3000)) {
+      this.getAndSetLocation();
+    }
+  }
+
+  parar() {
+    this.color = "danger";
+    window.location.reload();
+  }
+
+  async getAndSetLocation() {
+    const myLocation = await this.map.getMyLocation();
+    if (myLocation.accuracy < 20) {
       const cameraPos: CameraPosition<ILatLng> = {
         target: { lat: myLocation.latLng.lat, lng: myLocation.latLng.lng },
       };
       this.map.animateCamera(cameraPos);
-    });
-    // const watch = this.geolocation.watchPosition();
-    /* watch.subscribe((data: any) => {
-      const cameraPos: CameraPosition<ILatLng> = {
-        target: { lat: data.coords.lat, lng: data.coords.lng },
-      };
-      this.map.moveCamera(cameraPos);
-    }); */
+    }
   }
 }

@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="color=='success'">
   <ion-toolbar>
     <ion-title> Recorrido </ion-title>
   </ion-toolbar>
@@ -11,9 +11,14 @@
     </ion-toolbar>
   </ion-header>
   <div id="map_canvas"></div>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="loadMap()" [attr.color]="color">
-      <ion-icon name="pin"></ion-icon>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="color=='danger'">
+    <ion-fab-button (click)="parar()" [attr.color]="color">
+      <ion-icon name="stop-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="color=='success'">
+    <ion-fab-button (click)="iniciar()" [attr.color]="color">
+      <ion-icon name="play-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

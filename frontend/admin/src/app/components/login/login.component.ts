@@ -1,4 +1,3 @@
-import { environment } from './../../../environments/environment';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,7 +10,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  logoUrl = environment.apiUrl + '/img/logo.svg';
+  logoUrl = 'https://ui-avatars.com/api/?name=Recolector';
   loginForm: FormGroup;
   loading = false;
   submitted = false;
@@ -58,7 +57,7 @@ export class LoginComponent implements OnInit {
       .login(this.f.username.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        (data) => {
+        () => {
           this.router.navigate([this.returnUrl]);
         },
         (error) => {

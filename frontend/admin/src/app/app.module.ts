@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { ErrorInterceptor } from './helpers/error-interceptor.service';
 import { JwtInterceptorService } from './helpers/jwt-interceptor.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,7 +17,8 @@ import { NotAuthorizedComponent } from './components/shared/not-authorized/not-a
 import { DriversComponent } from './components/admin/drivers/drivers.component';
 import { DriversLiveComponent } from './components/admin/drivers-live/drivers-live.component'; // <============
 import { DataTablesModule } from 'angular-datatables';
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +37,8 @@ import { DataTablesModule } from 'angular-datatables';
     ReactiveFormsModule,
     NgHttpLoaderModule.forRoot(), // <============ Don't forget to call 'forRoot()'!
     DataTablesModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
   ],
   providers: [
     {

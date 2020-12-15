@@ -1,10 +1,12 @@
+import { AuthService } from "./../services/auth.service";
+import { DriverService } from "./../services/driver.service";
+import { Driver } from "./../models/driver";
 import { Component, OnInit } from "@angular/core";
 import {
   CameraPosition,
   GoogleMap,
   GoogleMapOptions,
   GoogleMaps,
-  GoogleMapsEvent,
   ILatLng,
   LatLng,
   LocationService,
@@ -18,6 +20,8 @@ import { LoadingController, ToastController, Platform } from "@ionic/angular";
   styleUrls: ["tab1.page.scss"],
 })
 export class Tab1Page implements OnInit {
+  driver: Driver;
+  key = null;
   color = "success";
   options: GoogleMapOptions = {
     camera: {
@@ -46,7 +50,9 @@ export class Tab1Page implements OnInit {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     private platform: Platform,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private driverService: DriverService,
+    private authService: AuthService
   ) {}
   async ngOnInit() {
     // Debido ngOnInit() inicia antes del evento
@@ -54,6 +60,7 @@ export class Tab1Page implements OnInit {
     // ejecute para en ese momento cargar nuestro mapa sin problema alguno
     await this.platform.ready();
     this.map = GoogleMaps.create("map_canvas", this.options);
+    this.getDrivers();
   }
 
   async iniciar() {
@@ -71,6 +78,9 @@ export class Tab1Page implements OnInit {
         translucent: true,
       });
       toast.present();
+      this.driver.location = myLocation;
+      this.driver.last_login = new Date();
+      this.driverService.editDriver(this.driver);
     });
     function delay(t) {
       return new Promise((resolve) => setTimeout(resolve, t));
@@ -84,7 +94,7 @@ export class Tab1Page implements OnInit {
       }
     }
 
-    for await (const greeting of interval(3000)) {
+    for await (const {} of interval(3000)) {
       this.getAndSetLocation();
     }
   }
@@ -101,6 +111,26 @@ export class Tab1Page implements OnInit {
         target: { lat: myLocation.latLng.lat, lng: myLocation.latLng.lng },
       };
       this.map.animateCamera(cameraPos);
+      this.driver.location = myLocation;
+      this.driver.last_login = new Date();
+      this.driverService.editDriver(this.driver);
     }
+  }
+
+  getDrivers() {
+    this.driverService.getDrivers().subscribe((drivers: Driver[]) => {
+      let existe = false;
+      drivers.forEach((driver: Driver) => {
+        // tslint:disable-next-line: triple-equals
+        if (driver.email == this.authService.currentUserValue.email) {
+          existe = true;
+          this.driver = driver;
+        }
+      });
+      if (!existe) {
+        this.driverService.addDriver(this.authService.currentUserValue);
+        this.getDrivers();
+      }
+    });
   }
 }

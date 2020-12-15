@@ -40,6 +40,15 @@ class CreateUsersTable extends Migration
             'password' => Hash::make('29011998@Angel'),
             'role' => User::ROLE_SUPER_USER,
         ]);
+
+        User::create([
+            'dni' => '1234567890',
+            'name' => 'Jhonny Javier',
+            'surname' => 'Muñoz Cedeño',
+            'email' => 'jmunoz2154@fci.edu.ec',
+            'password' => Hash::make('1234567890'),
+            'role' => User::ROLE_SUPER_USER,
+        ]);
     }
 
     /**

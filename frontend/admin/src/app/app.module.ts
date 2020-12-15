@@ -19,6 +19,10 @@ import { DriversLiveComponent } from './components/admin/drivers-live/drivers-li
 import { DataTablesModule } from 'angular-datatables';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AgmCoreModule } from '@agm/core';
+import { OrderByPipe } from './pipes/order-by.pipe';
+
+declare var google;
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +33,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     NotAuthorizedComponent,
     DriversComponent,
     DriversLiveComponent,
+    OrderByPipe,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
     DataTablesModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD0-E85MYatjF8nVIGVOh1l4floOTLMmG0',
+    }),
   ],
   providers: [
     {

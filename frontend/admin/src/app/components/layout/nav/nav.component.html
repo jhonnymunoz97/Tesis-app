@@ -6,7 +6,8 @@
   <div class="sidebar-content">
     <div class="sidebar-brand">
       <div class="container-fluid">
-        <img src="{{ environment.apiUrl + '/img/logoh.png' }}" class="w-100" />
+        <!--         <img src="{{ environment.apiUrl + '/img/logoh.png' }}" class="w-100" />
+ -->
       </div>
       <div id="close-sidebar">
         <i class="fa fa-times"></i>
@@ -67,10 +68,7 @@
             <div class="sidebar-submenu" routerLinkActive="active">
               <ul>
                 <li>
-                  <a
-                    [routerLink]="['/drivers-live']"
-                    routerLinkActive="active"
-                  >
+                  <a [routerLink]="['/drivers-live']" routerLinkActive="active">
                     En línea
                   </a>
                 </li>

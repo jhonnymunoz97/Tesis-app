@@ -1,7 +1,7 @@
 export const environment = {
   appName: 'ITSUP',
   appEmail: 'admin@itup-ec.com',
-  apiUrl: '',
+  apiUrl: 'https://tesis.cicmanabi.com',
   production: true,
   firebaseConfig: {
     apiKey: 'AIzaSyCpClIhs6vPaXv-rpemGoIq--fxllbYteI',

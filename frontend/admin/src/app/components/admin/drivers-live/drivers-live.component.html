@@ -1,1 +1,31 @@
-<p>drivers-live works!</p>
+<div class="row">
+  <div class="col-sm-9">
+    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+      <ng-container *ngFor="let driver of drivers">
+        <agm-marker
+          [latitude]="driver.location.latLng.lat"
+          [longitude]="driver.location.latLng.lng"
+          [markerClickable]="false"
+        ></agm-marker>
+      </ng-container>
+    </agm-map>
+  </div>
+  <div class="col-sm-3">
+    <ul class="list-group" *ngIf="drivers">
+      <li
+        class="list-group-item"
+        *ngFor="let driver of drivers | orderBy: 'last_login'"
+        (click)="viewDriver(driver)"
+      >
+        {{ driver.name }}&nbsp;{{ driver.surname }}
+        <br />
+        <strong>Ubicación:</strong>
+        {{ driver.location.latLng.lat }},&nbsp;{{ driver.location.latLng.lng }}
+        <br />
+        <strong>Última vez:</strong>
+        <br />
+        {{ getRelativeTime(driver.last_login) }}
+      </li>
+    </ul>
+  </div>
+</div>

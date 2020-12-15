@@ -34,9 +34,19 @@ class CreateDriversTable extends Migration
             'name' => 'Ángel Alexander',
             'surname' => 'Quiroz Candela',
             'email' => 'guirudj007@gmail.com',
-            'password' => Hash::make('29011998@Angela'),
+            'password' => Hash::make('29011998@Angel'),
             'telefono' => '0939851015',
             'licencia' => '123456789',
+            'verified' => true,
+        ]);
+        Driver::create([
+            'dni' => '1234567890',
+            'name' => 'Jhonny Javier',
+            'surname' => 'Muñoz Cedeño',
+            'email' => 'jmunoz2154@fci.edu.ec',
+            'password' => Hash::make('1234567890'),
+            'telefono' => '0987654321',
+            'licencia' => '2364578910',
             'verified' => true,
         ]);
     }

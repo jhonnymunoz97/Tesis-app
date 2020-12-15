@@ -1,6 +1,7 @@
 import { Driver } from './../../../models/driver';
 import { DriverService } from './../../../services/driver.service';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment'; // add this 1 of 4
 
 @Component({
   selector: 'app-drivers-live',
@@ -8,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./drivers-live.component.scss'],
 })
 export class DriversLiveComponent implements OnInit {
+  lat = -1.05458;
+  lng = -80.45445;
+  zoom = 14;
   drivers: Driver[];
-  constructor(private driverService: DriverService) {}
+  constructor(private driverService: DriverService) {
+    moment.locale('es-MX');
+  }
 
   ngOnInit(): void {
     this.getDrivers();
@@ -20,5 +26,13 @@ export class DriversLiveComponent implements OnInit {
       this.drivers = drivers;
       console.log(this.drivers);
     });
+  }
+  viewDriver(driver: Driver) {
+    this.lat = driver.location.latLng.lat;
+    this.lng = driver.location.latLng.lng;
+    this.zoom = 18;
+  }
+  getRelativeTime(timestamp) {
+    return moment(timestamp).startOf('minutes').fromNow();
   }
 }

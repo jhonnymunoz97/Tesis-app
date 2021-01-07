@@ -21,6 +21,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AgmCoreModule } from '@agm/core';
 import { OrderByPipe } from './pipes/order-by.pipe';
+import { NewRouteComponent } from './components/admin/new-route/new-route.component';
+import { RoutesComponent } from './components/admin/routes/routes.component';
+import { AgmDirectionModule } from 'agm-direction';
 
 declare var google;
 @NgModule({
@@ -34,6 +37,8 @@ declare var google;
     DriversComponent,
     DriversLiveComponent,
     OrderByPipe,
+    NewRouteComponent,
+    RoutesComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +52,7 @@ declare var google;
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD0-E85MYatjF8nVIGVOh1l4floOTLMmG0',
     }),
+    AgmDirectionModule, // agm-direction
   ],
   providers: [
     {

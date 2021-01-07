@@ -1,5 +1,6 @@
 export interface Driver {
   $key?: string; // Angular necesita este campo.
+  id?: number | string;
   dni: string;
   name: string;
   surname: string;
@@ -8,4 +9,5 @@ export interface Driver {
   licencia: string;
   last_login: Date;
   location?: any;
+  verified?: boolean;
 }

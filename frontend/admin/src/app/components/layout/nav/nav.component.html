@@ -80,6 +80,26 @@
               </ul>
             </div>
           </li>
+          <li class="sidebar-dropdown" routerLinkActive="active">
+            <a>
+              <i class="fa fa-map-marker"></i>
+              <span>Rutas</span>
+            </a>
+            <div class="sidebar-submenu" routerLinkActive="active">
+              <ul>
+                <li>
+                  <a [routerLink]="['/new-route']" routerLinkActive="active">
+                    Nueva
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/routes']" routerLinkActive="active">
+                    Todas
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
         </ng-container>
         <ng-template #noSuperUser> </ng-template>
       </ul>

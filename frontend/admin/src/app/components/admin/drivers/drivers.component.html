@@ -18,9 +18,9 @@
       <tr *ngFor="let person of drivers">
         <td>{{ person.id }}</td>
         <td>{{ person.dni }}</td>
-        <td>{{ person.apellidos }}</td>
-        <td>{{ person.nombres }}</td>
-        <ng-container *ngIf="person.verificado; else noVerificado">
+        <td>{{ person.surname }}</td>
+        <td>{{ person.name }}</td>
+        <ng-container *ngIf="person.verified; else noVerificado">
           <td>
             <i
               class="fa fa-check rounded rounded-circle border border-success text-success p-1"

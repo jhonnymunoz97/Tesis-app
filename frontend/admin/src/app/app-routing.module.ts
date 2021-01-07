@@ -8,6 +8,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RoutesComponent } from './components/admin/routes/routes.component';
+import { NewRouteComponent } from './components/admin/new-route/new-route.component';
 
 const routes: Routes = [
   {
@@ -25,6 +27,16 @@ const routes: Routes = [
   {
     path: 'drivers-live',
     component: DriversLiveComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'routes',
+    component: RoutesComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'new-route',
+    component: NewRouteComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
   { path: 'login', component: LoginComponent },

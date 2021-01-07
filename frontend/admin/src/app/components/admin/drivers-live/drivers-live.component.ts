@@ -24,7 +24,6 @@ export class DriversLiveComponent implements OnInit {
   getDrivers() {
     this.driverService.getDrivers().subscribe((drivers: Driver[]) => {
       this.drivers = drivers;
-      console.log(this.drivers);
     });
   }
   viewDriver(driver: Driver) {

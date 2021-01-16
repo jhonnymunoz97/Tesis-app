@@ -1,8 +1,18 @@
 <div class="row">
   <div class="col-sm-9">
-    <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      <agm-direction
+        *ngIf="selectedRutaView"
+        [origin]="selectedRutaView.origin"
+        [destination]="selectedRutaView.destination"
+        [waypoints]="selectedRutaView.waypoints"
+        [renderOptions]="renderOptions"
+        (onChange)="change($event)"
+      >
+      </agm-direction>
       <ng-container *ngFor="let driver of drivers">
         <agm-marker
+          *ngIf="driver.location"
           [latitude]="driver.location.latLng.lat"
           [longitude]="driver.location.latLng.lng"
           [markerClickable]="false"
@@ -18,6 +28,29 @@
     </agm-map>
   </div>
   <div class="col-sm-3">
+    <h4>Rutas Registradas:</h4>
+    <ul class="list-group">
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+        *ngFor="let ruta of rutas"
+      >
+        {{ ruta.name }}
+        <!-- <button
+          class="badge btn btn-primary rounded-pill text-white p-2"
+          (click)="asignar(ruta)"
+        >
+          <i class="fa fa-user-tag"></i>&nbsp;Asignar
+        </button> -->
+        <button
+          class="badge btn btn-primary rounded-pill text-white p-2"
+          (click)="showRuta(ruta)"
+        >
+          <i class="fa fa-eye"></i>&nbsp;Ver
+        </button>
+      </li>
+    </ul>
+    <hr />
+    <h4>Conductores</h4>
     <ul class="list-group" *ngIf="drivers">
       <li
         class="list-group-item"

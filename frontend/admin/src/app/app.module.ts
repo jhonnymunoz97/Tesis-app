@@ -10,7 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { NavComponent } from './components/layout/nav/nav.component';
 import { NotAuthorizedComponent } from './components/shared/not-authorized/not-authorized.component';
@@ -24,6 +24,7 @@ import { OrderByPipe } from './pipes/order-by.pipe';
 import { NewRouteComponent } from './components/admin/new-route/new-route.component';
 import { RoutesComponent } from './components/admin/routes/routes.component';
 import { AgmDirectionModule } from 'agm-direction';
+import { MonitoreoComponent } from './components/admin/monitoreo/monitoreo.component';
 
 declare var google;
 @NgModule({
@@ -39,6 +40,7 @@ declare var google;
     OrderByPipe,
     NewRouteComponent,
     RoutesComponent,
+    MonitoreoComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +55,7 @@ declare var google;
       apiKey: 'AIzaSyD0-E85MYatjF8nVIGVOh1l4floOTLMmG0',
     }),
     AgmDirectionModule, // agm-direction
+    FormsModule,
   ],
   providers: [
     {

@@ -10,6 +10,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoutesComponent } from './components/admin/routes/routes.component';
 import { NewRouteComponent } from './components/admin/new-route/new-route.component';
+import { MonitoreoComponent } from './components/admin/monitoreo/monitoreo.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,11 @@ const routes: Routes = [
   {
     path: 'drivers-live',
     component: DriversLiveComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'monitoreo',
+    component: MonitoreoComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
   {

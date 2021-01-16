@@ -1,5 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Asignacion } from 'src/app/models/asignacion';
+import { Driver } from 'src/app/models/driver';
 import { Location, Ruta } from 'src/app/models/ruta';
+import { AsignacionsService } from 'src/app/services/asignacion.service';
+import { DriverService } from 'src/app/services/driver.service';
 import { RutasService } from 'src/app/services/rutas.service';
 import Swal from 'sweetalert2';
 
@@ -9,6 +13,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
+  isEditing = false;
+  isNew = false;
   editada: Ruta = {
     destination: null,
     name: null,
@@ -16,6 +22,7 @@ export class RoutesComponent implements OnInit {
     waypoints: null,
   };
   rutas: Ruta[] = [];
+  conductores: Driver[] = [];
   selectedRuta: Ruta = null;
   selectedRutaView: Ruta = null;
   lat = -1.0168547484192896;
@@ -27,35 +34,49 @@ export class RoutesComponent implements OnInit {
   };
   newWP;
 
-  constructor(private rutasService: RutasService) {
+  constructor(
+    private rutasService: RutasService,
+    private driverService: DriverService
+  ) {
     this.rutas.push();
   }
 
   ngOnInit(): void {
-    /* this.rutasService.addRuta({
-      destination: { lat: -1.0587918154251523, lng: -80.46483502069046 },
-      origin: { lat: -1.0446517157613564, lng: -80.47741767150812 },
-      name: 'Ruta 1',
-    }); */
     this.getRutas();
   }
 
   getRutas() {
     this.rutasService.getRutas().subscribe((rutas: Ruta[]) => {
       this.rutas = rutas;
+      this.getDrivers();
+    });
+  }
+  getDrivers() {
+    this.driverService.getDrivers().subscribe((conductores: Driver[]) => {
+      this.conductores = conductores;
     });
   }
 
   showRuta(ruta: Ruta) {
+    this.isEditing = true;
     this.selectedRutaView = ruta;
     this.editada.$key = ruta.$key;
     this.editada.name = ruta.name;
     this.editada.origin = ruta.origin;
     this.editada.destination = ruta.destination;
-    this.editada.waypoints = ruta.waypoints;
+    if (ruta.waypoints) {
+      this.editada.waypoints = ruta.waypoints;
+      this.editada.waypoints = [];
+    } else {
+    }
   }
   saveRuta() {
-    this.rutasService.editRuta(this.editada);
+    if (this.isNew) {
+      delete this.editada.$key;
+      this.rutasService.addRuta(this.editada);
+    } else {
+      this.rutasService.editRuta(this.editada);
+    }
   }
   public async change(event) {
     if (event.request.origin) {
@@ -115,5 +136,55 @@ export class RoutesComponent implements OnInit {
         }
       }
     }
+  }
+
+  async asignar(ruta: Ruta) {
+    const { value: driver } = await Swal.fire({
+      title: 'Asigne la ruta a un conductor',
+      input: 'select',
+      inputOptions: Object.assign({
+        ...this.conductores.map((driver) => {
+          return driver.dni + ' - ' + driver.name + ' ' + driver.surname;
+        }),
+      }),
+      inputPlaceholder: '--Seleccine un Conductor--',
+      showCancelButton: true,
+    });
+
+    if (driver) {
+      const newDriver: Driver = JSON.parse(
+        JSON.stringify(this.conductores[driver])
+      );
+      newDriver.ruta = null;
+      console.log(newDriver);
+
+      // ruta.driver = newDriver;
+      this.driverService.editDriver(newDriver);
+      // this.rutasService.editRuta(ruta);
+    }
+  }
+  nuevaRuta() {
+    this.isNew = true;
+    this.showRuta({
+      destination: { lat: -1.0587918154251523, lng: -80.46483502069046 },
+      origin: { lat: -1.0446517157613564, lng: -80.47741767150812 },
+      name: 'Ruta ',
+    });
+  }
+
+  deleteRuta(ruta: Ruta) {
+    Swal.fire({
+      title: 'Está Seguro?',
+      text: 'Esta acción no puede revertirse!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrar!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rutasService.deleteRuta(ruta.$key);
+      }
+    });
   }
 }

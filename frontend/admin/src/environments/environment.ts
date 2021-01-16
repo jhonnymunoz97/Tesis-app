@@ -5,7 +5,7 @@
 export const environment = {
   appName: 'ITSUP',
   appEmail: 'admin@itup-ec.com',
-  apiUrl: 'http://localhost/TESIS/backend/api/public',
+  apiUrl: 'http://localhost/PROYECTO/backend/api/public',
   production: false,
   firebaseConfig: {
     apiKey: 'AIzaSyCpClIhs6vPaXv-rpemGoIq--fxllbYteI',

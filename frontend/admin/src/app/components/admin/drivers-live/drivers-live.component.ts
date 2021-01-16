@@ -29,7 +29,7 @@ export class DriversLiveComponent implements OnInit {
   viewDriver(driver: Driver) {
     this.lat = driver.location.latLng.lat;
     this.lng = driver.location.latLng.lng;
-    this.zoom = 18;
+    this.zoom = 19;
   }
   getRelativeTime(timestamp) {
     return moment(timestamp).startOf('minutes').fromNow();

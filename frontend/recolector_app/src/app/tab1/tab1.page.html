@@ -10,6 +10,16 @@
       <ion-title size="large">Recorrido</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-list>
+    <ion-item>
+      <ion-label>Ruta</ion-label>
+      <ion-select placeholder="Seleccione una ruta" (ionChange)="onChange($event)">
+        <ng-container *ngFor="let ruta of rutas;let i=index">
+          <ion-select-option value="{{ i }}"> {{ ruta.name }} </ion-select-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+  </ion-list>
   <div id="map_canvas"></div>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="color=='danger'">
     <ion-fab-button (click)="parar()" [attr.color]="color">

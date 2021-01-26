@@ -1,7 +1,8 @@
 {
   "name": "recolector_app",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

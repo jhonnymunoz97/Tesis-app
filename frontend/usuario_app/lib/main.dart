@@ -1,74 +1,69 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_builder.dart';
+import 'package:flutter/services.dart';
+import 'package:permission/permission.dart';
+import 'package:usuario_app/View_Model/home_view_model.dart';
+import 'package:usuario_app/View_Model/sign_in_view_model.dart';
+import 'package:usuario_app/utils/locator.dart';
+import 'package:usuario_app/utils/prefer.dart';
+import 'package:usuario_app/utils/routes.dart';
+import 'package:provider/provider.dart';
 
-import './register_page.dart';
-import './signin_page.dart';
-
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(AuthExampleApp());
-}
-
-/// The entry point of the application.
-///
-/// Returns a [MaterialApp].
-class AuthExampleApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Firebase Example App',
-        theme: ThemeData.dark(),
-        home: Scaffold(
-          body: AuthTypeSelector(),
-        ));
-  }
-}
-
-/// Provides a UI to select a authentication type page
-class AuthTypeSelector extends StatelessWidget {
-  // Navigates to a new page
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context) /*!*/ .push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Firebase Example App"),
+  Prefs.init();
+  setLocator();
+  runApp(MultiProvider(
+    child: MyApp(),
+    providers: [
+      ChangeNotifierProvider<HomeViewModel>(
+        builder: (_) => HomeViewModel(),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: SignInButtonBuilder(
-              icon: Icons.person_add,
-              backgroundColor: Colors.indigo,
-              text: 'Registration',
-              onPressed: () => _pushPage(context, RegisterPage()),
-            ),
-            padding: const EdgeInsets.all(16),
-            alignment: Alignment.center,
+    ],
+  ));
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale locale;
+  bool localeLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    print('initState()');
+    Permission.requestPermissions([PermissionName.Location]);
+    //MyApp.setLocale(context, locale);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.grey[400],
+//        statusBarColor: Styles.blueColor,
+        statusBarIconBrightness:
+            Brightness.light //or set color with: Color(0xFF0000FF)
+        ));
+
+    return ChangeNotifierProvider<SignInViewModel>(
+      builder: (_) => SignInViewModel(),
+      child: Center(
+        child: MaterialApp(
+          initialRoute: '/',
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: Routes.onGenerateRoute,
+          theme: ThemeData(
+            primaryColor: Colors.black,
+            fontFamily: 'FA',
           ),
-          Container(
-            child: SignInButtonBuilder(
-              icon: Icons.verified_user,
-              backgroundColor: Colors.orange,
-              text: 'Sign In',
-              onPressed: () => _pushPage(context, SignInPage()),
-            ),
-            padding: const EdgeInsets.all(16),
-            alignment: Alignment.center,
-          ),
-        ],
+        ),
       ),
     );
   }

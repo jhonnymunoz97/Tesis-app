@@ -9,6 +9,8 @@ import { NotiService } from "../services/notifications.service";
 import { User } from "../models/user";
 import { UserService } from "../services/user.service";
 import { Driver } from "../models/driver";
+import { OneSignal } from "@ionic-native/onesignal/ngx";
+
 declare var google;
 @Component({
   selector: "app-tab1",
@@ -114,6 +116,7 @@ export class Tab1Page implements OnInit {
           existe = true;
           this.user = user;
           this.user.$key = user.$key;
+          OneSignal.getPlugin().setEmail(user.email);
         }
       });
       if (!existe) {

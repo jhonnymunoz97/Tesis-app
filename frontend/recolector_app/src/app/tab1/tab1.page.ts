@@ -15,6 +15,8 @@ import {
 import { LoadingController, ToastController, Platform } from "@ionic/angular";
 import { RutaService } from "../services/ruta.service";
 import { Ruta } from "../models/ruta";
+import { UserService } from "../services/user.service";
+import { User } from "../models/user";
 declare var google;
 @Component({
   selector: "app-tab1",
@@ -50,6 +52,8 @@ export class Tab1Page implements OnInit {
   };
   map: GoogleMap;
   loading: any;
+  users: any[];
+  ruta: Ruta;
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
@@ -57,7 +61,8 @@ export class Tab1Page implements OnInit {
     private toastController: ToastController,
     private driverService: DriverService,
     private rutaService: RutaService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
   async ngOnInit() {
     // Debido ngOnInit() inicia antes del evento
@@ -67,6 +72,7 @@ export class Tab1Page implements OnInit {
     this.map = GoogleMaps.create("map_canvas", this.options);
     this.getDrivers();
     this.getRutas();
+    this.getUsers();
   }
 
   async iniciar() {
@@ -76,17 +82,25 @@ export class Tab1Page implements OnInit {
         target: { lat: myLocation.latLng.lat, lng: myLocation.latLng.lng },
         zoom: 20,
       };
-      this.map.animateCamera(cameraPos);
-      const toast = await this.toastController.create({
-        message: "Enviando ubicación en tiempo real",
-        duration: 8500,
-        position: "top",
-        translucent: true,
+      this.users.forEach(async (user: User) => {
+        if (user.ruta == this.ruta.$key) {
+          console.log(user);
+          this.map.animateCamera(cameraPos);
+          this.userService.sendNotification(user, this.ruta).subscribe(async (response) => {
+            console.log(response);
+            const toast = await this.toastController.create({
+              message: "Enviando ubicación en tiempo real",
+              duration: 8500,
+              position: "top",
+              translucent: true,
+            });
+            toast.present();
+            this.driver.location = myLocation;
+            this.driver.last_login = new Date();
+            this.driverService.editDriver(this.driver);
+          });
+        }
       });
-      toast.present();
-      this.driver.location = myLocation;
-      this.driver.last_login = new Date();
-      this.driverService.editDriver(this.driver);
     });
     function delay(t) {
       return new Promise((resolve) => setTimeout(resolve, t));
@@ -145,20 +159,26 @@ export class Tab1Page implements OnInit {
     });
   }
 
+  getUsers() {
+    this.userService.getUsers().subscribe((users: User[]) => {
+      this.users = users;
+    });
+  }
+
   setRuta(i: number) {
-    const ruta = this.rutas[i];
+    this.ruta = this.rutas[i];
     let directionsService = new google.maps.DirectionsService();
     directionsService.route(
       {
         origin: {
-          lat: ruta.origin.lat,
-          lng: ruta.origin.lng,
+          lat: this.ruta.origin.lat,
+          lng: this.ruta.origin.lng,
         },
         destination: {
-          lat: ruta.destination.lat,
-          lng: ruta.destination.lng,
+          lat: this.ruta.destination.lat,
+          lng: this.ruta.destination.lng,
         },
-        waypoints: ruta.waypoints,
+        waypoints: this.ruta.waypoints,
         travelMode: google.maps.TravelMode["DRIVING"],
       },
       (res, status) => {
@@ -168,7 +188,7 @@ export class Tab1Page implements OnInit {
           let newOptions: GoogleMapOptions = JSON.parse(
             JSON.stringify({
               camera: {
-                target: new LatLng(ruta.origin.lat, ruta.destination.lng),
+                target: new LatLng(this.ruta.origin.lat, this.ruta.destination.lng),
                 zoom: 17,
               },
               controls: {

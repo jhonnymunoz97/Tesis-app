@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { User } from "../models/user";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Ruta } from "../models/ruta";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +13,7 @@ export class UserService {
   // Este contendra una Coleccion de Useres de la DB.
   private usersDB: AngularFireList<User>;
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase, private http: HttpClient) {
     // ? Accedemos a la base de datos de firebase.
     // ? Vamos a acceder la lista de users en la db.
     // ? y se implementa la funcionalidad en el segundo argumento.
@@ -57,8 +59,46 @@ export class UserService {
 
   // Editar un User
   editUser(newUserData: User) {
-    const $key = newUserData.$key;
+    const key = newUserData.$key;
     delete newUserData.$key;
-    return this.db.list("/users").update($key, newUserData);
+    // ? Salvamos el Key.
+    // ? Eliminamos el registro anterior con el Key.
+    // ? Nuevamente asignamos a ese registro la nueva información en la base de datos.
+    // ? FireBase no acepta que ya se contenga una Key, por eso se hizo la Key opcional.
+    // ? Al borrar o actualizar daria problema sino fuera opcional.
+    return this.db.object(`users/${key}`).set(newUserData);
+  }
+
+  sendNotification(user: User, ruta: Ruta) {
+    return this.http
+      .post<any>(
+        `https://onesignal.com/api/v1/notifications`,
+        {
+          app_id: "c9ba3030-4787-4b84-ae4d-31494c773ca7",
+          contents: {
+            en: user.name + ". Coloque la basura en el punto de recolección 🗑️.",
+          },
+          headings: {
+            en: "Su recolector está en camino 🚚",
+          },
+          filters: [
+            {
+              field: "email",
+              value: user.email,
+            },
+          ],
+        },
+        {
+          headers: new HttpHeaders({
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: "Basic NGFlOTUxNjEtNGQyOS00NzA2LWIxMTUtMTRlOGFkM2UyZjg5",
+          }),
+        }
+      )
+      .pipe(
+        map((user) => {
+          return user;
+        })
+      );
   }
 }

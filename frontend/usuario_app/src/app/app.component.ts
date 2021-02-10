@@ -6,18 +6,22 @@ import { StatusBar } from "@ionic-native/status-bar/ngx";
 
 import { OneSignal } from "@ionic-native/onesignal/ngx";
 import { TabsPage } from "./tabs/tabs.page";
+import { RutaService } from "./services/ruta.service";
+import { Ruta } from "./models/ruta";
 
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
 })
 export class AppComponent {
+  rutas: Ruta[];
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private oneSignal: OneSignal,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private rutaService: RutaService
   ) {
     this.initializeApp();
   }
@@ -44,16 +48,26 @@ export class AppComponent {
       let msg = data.payload.body;
       let title = data.payload.title;
       let additionalData = data.payload.additionalData;
+      let idRuta = data.payload.additionalData.idRuta;
       this.showAlert(title, msg, additionalData.task);
+      /*  this.rutaService.getRutas().subscribe((rutas: Ruta[]) => {
+        rutas.forEach((ruta) => {
+          if (ruta.$key == idRuta) {
+            console.log("SOY");
+            this.showAlert(title, msg, additionalData.task);
+          }
+        });
+        this.rutas = rutas;
+      }); */
     });
 
     // Notification was really clicked/opened
-    this.oneSignal.handleNotificationOpened().subscribe((data) => {
+    /* this.oneSignal.handleNotificationOpened().subscribe((data) => {
       // Just a note that the data is a different place here!
       let additionalData = data.notification.payload.additionalData;
 
       this.showAlert("Tu recolector está en camino", "Saca la basura", additionalData.task);
-    });
+    }); */
 
     this.oneSignal.endInit();
   }

@@ -16,6 +16,7 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireStorageModule } from "@angular/fire/storage";
+import { OneSignal } from "@ionic-native/onesignal/ngx";
 
 // environment
 import { environment } from "../environments/environment";
@@ -38,6 +39,7 @@ import { environment } from "../environments/environment";
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     DriverService,
+    OneSignal,
   ],
   bootstrap: [AppComponent],
 })

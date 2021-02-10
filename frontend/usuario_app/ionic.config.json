@@ -1,8 +1,7 @@
 {
   "name": "usuario_app",
   "integrations": {
-    "cordova": {},
-    "capacitor": {}
+    "cordova": {}
   },
   "type": "angular"
 }

@@ -1,0 +1,30 @@
+<ion-header [translucent]="true" *ngIf="color=='success'">
+  <ion-toolbar>
+    <ion-title> Busca tu ruta con las flechas </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Recorrido</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div id="map_canvas"></div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <h4>
+      <ng-container *ngIf="rutas!=null && rutas.length>0;else default"> {{ rutas[indexRuta].name }} </ng-container>
+      <ng-template #default> Selecciona tu ruta </ng-template>
+    </h4>
+    &nbsp;&nbsp;
+    <ion-fab-button (click)="rest()" [attr.color]="color">
+      <ion-icon name="arrow-back-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="add()" [attr.color]="color" style="margin-left: 0.5rem">
+      <ion-icon name="arrow-forward-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="iniciar()" [attr.color]="color" style="margin-left: 0.5rem">
+      <ion-icon name="save-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

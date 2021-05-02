@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-sm-9">
+<div class="d-flex align-content-center justify-content-end">
+  <div class="flex-grow-1 mr-3">
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
       <agm-direction
         *ngIf="selectedRutaView"
@@ -11,11 +11,25 @@
       >
       </agm-direction>
     </agm-map>
+    <div
+      class="alert alert-primary my-0 py-0 rounded-0 border-danger"
+      role="alert"
+    >
+      <span>
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+        &nbsp; Arrastre la línea, los puntos "A" y "B" para modificarla la ruta
+      </span>
+    </div>
   </div>
-  <div class="col-sm-3">
+  <div>
+    <h4>Rutas Registradas:</h4>
+    <button class="badge btn btn-primary" (click)="nuevaRuta()">
+      <i class="fa fa-plus"></i>&nbsp;Nueva
+    </button>
     <ng-container *ngIf="selectedRutaView">
+      <hr />
       <div class="form-group">
-        <label for="nomrbre">Nombre</label>
+        <label for="nomrbre">Ruta actual:</label>
         <input
           type="text"
           class="form-control"
@@ -28,25 +42,30 @@
       </div>
       <ul>
         <h6>Origen:</h6>
-        <li *ngIf="selectedRutaView.origin">
-          {{ selectedRutaView.origin.lat + ", " + selectedRutaView.origin.lng }}
+        <li *ngIf="selectedRutaView.origin" class="mb-3">
+          <span> Lat:&nbsp;{{ selectedRutaView.origin.lat + ", " }} </span>
+          <br />
+          <span> Lng:&nbsp;{{ selectedRutaView.origin.lng }} </span>
         </li>
-        <h6 *ngIf="editada.waypoints">Puntos de Ruta:</h6>
-        <li *ngFor="let wp of editada.waypoints">
-          <span class="mb-3">
-            {{ wp.location.location.lat + ", " + wp.location.location.lat }}
+        <h6 *ngIf="editada.waypoints.lenght > 0">Puntos de Ruta:</h6>
+        <ng-container *ngFor="let wp of editada.waypoints">
+          <span>
+            {{ wp.location.location.lat + "," }}
           </span>
-        </li>
+          <br />
+          <span>
+            {{ wp.location.location.lng }}
+          </span>
+        </ng-container>
+
         <h6>Destino:</h6>
         <li *ngIf="selectedRutaView.destination">
-          {{
-            selectedRutaView.destination.lat +
-              ", " +
-              selectedRutaView.destination.lng
-          }}
+          <span> Lat:&nbsp;{{ selectedRutaView.destination.lat + ", " }} </span>
+          <br />
+          <span> Lng:&nbsp;{{ selectedRutaView.destination.lng }} </span>
         </li>
       </ul>
-      <div class="row">
+      <div class="row" *ngIf="isEditing || isNew">
         <div class="col-12 text-center">
           <a class="btn btn-success btn-sm" (click)="saveRuta()" role="button">
             Guardar&nbsp;<i class="fa fa-save"></i>
@@ -54,33 +73,26 @@
         </div>
       </div>
     </ng-container>
-    <h4>Rutas Registradas:</h4>
-    <button
-      class="badge btn btn-primary rounded-pill text-white p-2"
-      (click)="nuevaRuta()"
-    >
-      <i class="fa fa-plus"></i>&nbsp;Nueva
-    </button>
     <hr />
-    <ul class="list-group">
-      <li
-        class="list-group-item d-flex justify-content-between align-items-center"
-        *ngFor="let ruta of rutas"
-      >
-        {{ ruta.name }}
 
-        <button
-          class="badge btn btn-primary rounded-pill text-white p-2"
-          (click)="showRuta(ruta)"
-        >
-          <i class="fa fa-eye"></i>&nbsp;Ver
-        </button>
-        <button
-          class="badge btn btn-danger rounded-pill text-white p-2"
-          (click)="deleteRuta(ruta)"
-        >
-          <i class="fa fa-trash"></i>&nbsp;Eliminar
-        </button>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let ruta of rutas">
+        {{ ruta.name }}
+        <div class="btn-toolbar" role="toolbar" aria-label="Acciones de ruta">
+          <div class="btn-group mr-2" role="group">
+            <button class="badge btn btn-primary" (click)="showRuta(ruta)">
+              <i class="fa fa-eye"></i>&nbsp;Ver
+            </button>
+            <button class="badge btn btn-warning" (click)="editRuta(ruta)">
+              <i class="fa fa-edit"></i>&nbsp;Editar
+            </button>
+            <div class="btn-group mr-2" role="group">
+              <button class="badge btn btn-danger" (click)="deleteRuta(ruta)">
+                <i class="fa fa-trash"></i>&nbsp;Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
   </div>

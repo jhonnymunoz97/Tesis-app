@@ -1,0 +1,173 @@
+<div class="container-fluid">
+  <h2>Información de usuario</h2>
+  <div class="container">
+    <form (ngSubmit)="saveUser()" #userForm="ngForm" *ngIf="user">
+      <div class="row">
+        <div class="col col-12 col-md-3">
+          <div class="text-center">
+            <img
+              [src]="user.profilePhoto"
+              class="img-fluid rounded rounded-circle"
+              alt=""
+            />
+            <div class="form-group">
+              <label for="profilePhoto">Foto de Perfil</label>
+              <input
+                type="file"
+                class="form-control-file"
+                name="profilePhoto"
+                id="profilePhoto"
+                placeholder=""
+                aria-describedby="profilePhotoHelp"
+                (change)="onSelectPhoto($event)"
+              />
+              <small id="profilePhotoHelp" class="form-text text-muted">
+                Foto del usuario
+              </small>
+              <small *ngIf="user.profilePhoto == 'https://i.pravatar.cc/1000'">
+                Esta foto está generada por una IA
+              </small>
+            </div>
+            <hr />
+            <h5>
+              {{ user.surname }}
+            </h5>
+            <h5>
+              {{ user.name }}
+            </h5>
+            <div [ngSwitch]="isEditOrAdd">
+              <div *ngSwitchCase="true">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="saveUser()"
+                >
+                  <i class="fa fa-save" aria-hidden="true"></i>
+                  &nbsp; Guardar
+                </button>
+              </div>
+
+              <div *ngSwitchCase="false">
+                <button type="button" class="btn btn-info" (click)="editUser()">
+                  <i class="fa fa-edit" aria-hidden="true"></i>
+                  &nbsp; Editar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col col-12 col-md-6">
+              <div class="form-group">
+                <label for="surname">Apellidos:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="surname"
+                  id="surname"
+                  aria-describedby="surnameHelp"
+                  placeholder="Cedeño Zambrano"
+                  [disabled]="!isEditOrAdd"
+                  [(ngModel)]="user.surname"
+                />
+                <small id="surnameHelp" class="form-text text-muted">
+                  Apellidos como se muestran en la cédula
+                </small>
+              </div>
+            </div>
+            <div class="col col-12 col-md-6">
+              <div class="form-group">
+                <label for="name">Nombres:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  id="name"
+                  aria-describedby="nameHelp"
+                  placeholder="Cedeño Zambrano"
+                  [disabled]="!isEditOrAdd"
+                  [(ngModel)]="user.name"
+                />
+                <small id="nameHelp" class="form-text text-muted">
+                  Nombres como se muestran en la cédula
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-12 col-md-6">
+              <div class="form-group">
+                <label for="dni"> Cédula de Identidad:</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="dni"
+                    id="dni"
+                    aria-describedby="dniHelp"
+                    placeholder="Cédula de Identidad"
+                    [disabled]="!isEditOrAdd"
+                    [(ngModel)]="user.dni"
+                  />
+                </div>
+                <small id="dniHelp" class="form-text text-muted">
+                  Cédula sin guiones
+                </small>
+              </div>
+            </div>
+            <div class="col col-12 col-md-6">
+              <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  id="email"
+                  aria-describedby="emailHelp"
+                  placeholder="correo@ejemplo.com"
+                  [disabled]="!isEditOrAdd"
+                  [(ngModel)]="user.email"
+                />
+                <small id="emailHelp" class="form-text text-muted">
+                  Escriba su email de manera correcta
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-12 col-md-6">
+              <div class="form-group">
+                <label for="role"> Rol </label>
+                <select
+                  class="form-control"
+                  name="role"
+                  id="role"
+                  [disabled]="!isEditOrAdd"
+                  [(ngModel)]="user.role"
+                >
+                  <option>Administrador</option>
+                  <option>Usuario</option>
+                </select>
+              </div>
+            </div>
+            <div class="col col-12 col-md-6">
+              <div class="form-group">
+                <label for="">Contraseña:</label>
+                <br />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  [disabled]="!isEditOrAdd"
+                >
+                  <i class="fa fa-key" aria-hidden="true"></i>
+                  Generar nueva contraseña
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

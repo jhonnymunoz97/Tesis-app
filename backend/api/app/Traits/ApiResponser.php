@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait ApiResponser
 {
-    private function successResponse($data, $messages = 'OK!', $code = 200)
+    private function successResponse($data, $messages = 'Operación exitosa!', $code = 200)
     {
         if (!is_array($messages) && !is_object($messages)) {
             $messages = array($messages);

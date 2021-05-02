@@ -57,8 +57,9 @@ export class LoginComponent implements OnInit {
       .login(this.f.username.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        () => {
-          this.router.navigate([this.returnUrl]);
+        async () => {
+          await this.router.navigate([this.returnUrl]);
+          window.location.reload();
         },
         (error) => {
           this.error = error;

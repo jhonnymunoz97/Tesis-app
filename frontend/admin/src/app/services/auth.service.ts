@@ -31,6 +31,9 @@ export class AuthService {
       })
       .pipe(
         map((user) => {
+          user.data.profilePhoto = user.data.profilePhoto
+            ? user.data.profilePhoto
+            : 'https://i.pravatar.cc/1000';
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(user.data));
           this.currentUserSubject.next(user.data);

@@ -3,6 +3,7 @@ import { environment } from './../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { MyDTOptions } from 'src/app/helpers/MyDtOptions';
 
 @Component({
   selector: 'app-drivers',
@@ -18,12 +19,7 @@ export class DriversComponent implements OnInit, OnDestroy {
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {
-    this.dtOptions = {
-      processing: true,
-      language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-      },
-    };
+    this.dtOptions = MyDTOptions
     this.getDrivers();
   }
 

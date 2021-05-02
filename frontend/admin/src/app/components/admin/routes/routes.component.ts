@@ -1,8 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Asignacion } from 'src/app/models/asignacion';
+import { Component, OnInit } from '@angular/core';
 import { Driver } from 'src/app/models/driver';
 import { Location, Ruta } from 'src/app/models/ruta';
-import { AsignacionsService } from 'src/app/services/asignacion.service';
 import { DriverService } from 'src/app/services/driver.service';
 import { RutasService } from 'src/app/services/rutas.service';
 import Swal from 'sweetalert2';
@@ -58,7 +56,8 @@ export class RoutesComponent implements OnInit {
   }
 
   showRuta(ruta: Ruta) {
-    this.isEditing = true;
+    this.isEditing = false;
+
     this.selectedRutaView = ruta;
     this.editada.$key = ruta.$key;
     this.editada.name = ruta.name;
@@ -69,6 +68,10 @@ export class RoutesComponent implements OnInit {
       this.editada.waypoints = [];
     } else {
     }
+  }
+  editRuta(ruta: Ruta) {
+    this.showRuta(ruta);
+    this.isEditing = true;
   }
   saveRuta() {
     if (this.isNew) {

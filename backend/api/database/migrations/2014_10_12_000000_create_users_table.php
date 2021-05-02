@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('surname');
             $table->string('email');
             $table->string('password');
+            $table->binary('profilePhoto')->nullable();
             $table->boolean('verified')->default(false);
             $table->dateTime('last_login')->nullable();
             $table->enum('role', [
@@ -30,6 +31,7 @@ class CreateUsersTable extends Migration
                 User::ROLE_USER
             ])->default(User::ROLE_USER);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         User::create([
@@ -47,7 +49,7 @@ class CreateUsersTable extends Migration
             'surname' => 'Muñoz Cedeño',
             'email' => 'jmunoz2154@fci.edu.ec',
             'password' => Hash::make('1234567890'),
-            'role' => User::ROLE_SUPER_USER,
+            'role' => User::ROLE_USER,
         ]);
     }
 

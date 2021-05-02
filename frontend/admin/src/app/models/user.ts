@@ -7,6 +7,7 @@ export class User {
   email: string;
   verified: boolean;
   role: string;
+  profilePhoto: string = 'https://i.pravatar.cc/1000';
   // tslint:disable-next-line: variable-name
   access_token?: any;
   // tslint:disable-next-line: variable-name

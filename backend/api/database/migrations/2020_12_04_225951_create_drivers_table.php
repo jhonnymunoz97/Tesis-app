@@ -27,11 +27,12 @@ class CreateDriversTable extends Migration
             $table->dateTime('last_login')->nullable();
             $table->boolean('verified')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Driver::create([
             'dni' => '0850539479',
-            'name' => 'Ángel Alexander',
+            'name' => 'Ángel Conductor',
             'surname' => 'Quiroz Candela',
             'email' => 'guirudj007@gmail.com',
             'password' => Hash::make('29011998@Angel'),
@@ -41,7 +42,7 @@ class CreateDriversTable extends Migration
         ]);
         Driver::create([
             'dni' => '1234567890',
-            'name' => 'Jhonny Javier',
+            'name' => 'Jhonny Conductor',
             'surname' => 'Muñoz Cedeño',
             'email' => 'jmunoz2154@fci.edu.ec',
             'password' => Hash::make('1234567890'),

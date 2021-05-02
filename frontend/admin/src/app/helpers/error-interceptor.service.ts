@@ -5,9 +5,10 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -23,6 +24,34 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
+      map((event: HttpEvent<any>) => {
+        if (event instanceof HttpResponse) {
+          let messages = event.body.messages ? event.body.messages : [];
+          let msj = [];
+          messages.forEach((message) => {
+            if (message != 'Operación exitosa!') {
+              msj.push(message);
+            }
+          });
+          if (msj.length > 0) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Operación exitosa',
+              html: msj.reduce((html, item) => {
+                console.log(item);
+
+                return html + item + '<br/>';
+              }, ''),
+              showConfirmButton: false,
+              timer: 5000,
+              width: 300,
+            });
+          }
+
+          return event;
+        }
+      }),
       catchError((err) => {
         if (err.status === 401 || err.status === 500) {
           // auto logout if 401 response returned from api
@@ -35,6 +64,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (!Array.isArray(error)) {
           error = [error];
         }
+
         Swal.fire({
           position: 'top-end',
           icon: 'error',
@@ -43,7 +73,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             return html + item + '<br/>';
           }, ''),
           showConfirmButton: false,
-          timer: 2500,
+          timer: 5000,
           width: 300,
         });
         return throwError(error);

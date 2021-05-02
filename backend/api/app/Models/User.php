@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    const ROLE_SUPER_USER = 'Súper Usuario';
+    use SoftDeletes;
+    const ROLE_SUPER_USER = 'Administrador';
     const ROLE_DRIVER = 'Conductor';
     const ROLE_USER = 'Usuario';
     /**
@@ -22,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'role',
+        'profilePhoto',
         'verified',
         'last_login',
     ];

@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\MarkerController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +20,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('upload64', function (Request $request) {
+    $image = $request->imagen; // your base64 encoded
+    $image = str_replace('data:image/jpeg;base64,', '', $image);
+    $image = str_replace(' ', '+', $image);
+    $imageName = time() . '.' . 'png';
+    File::put(public_path() . "//img//" . $imageName, base64_decode($image));
+    return asset("img/$imageName");
+});
 /**No protegidas */
 Route::group(['middleware' => 'api'], function () {
     Route::get('/', function () {
@@ -39,9 +51,8 @@ Route::group([
     Route::get('test', [AuthController::class, 'test'])->name('test');
 
     Route::apiResources([
-        'drivers' => DriverController::class
-    ]);
-    Route::apiResources([
-        'users' => UserController::class
+        'drivers' => DriverController::class,
+        'users' => UserController::class,
+        'markers' => MarkerController::class,
     ]);
 });

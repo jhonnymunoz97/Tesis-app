@@ -14,10 +14,19 @@
       </div>
     </div>
     <div class="sidebar-header">
+      <div
+        class="block"
+        *ngIf="
+          authService.currentUserValue.profilePhoto ==
+          'https://i.pravatar.cc/1000'
+        "
+      >
+        <small class="text-white"> Esta foto está generada por una IA </small>
+      </div>
       <div class="user-pic">
         <img
           class="img-responsive img-rounded"
-          src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+          [src]="authService.currentUserValue.profilePhoto"
           alt="User picture"
         />
       </div>
@@ -50,10 +59,10 @@
             <span>Inicio</span>
           </a>
         </li>
-        <!-- TODO: Súper Usuario -->
+        <!-- TODO: Administrador -->
         <ng-container
           *ngIf="
-            authService.currentUserValue.role === 'Súper Usuario';
+            authService.currentUserValue.role === 'Administrador';
             else noSuperUser
           "
         >
@@ -75,9 +84,17 @@
               </ul>
             </div>
           </li>
+
+          <li routerLinkActive="active">
+            <a [routerLink]="['/markers']" routerLinkActive="active">
+              <i class="fa fa-map-marker"></i>
+              <span>Puntos de Recolección</span>
+            </a>
+          </li>
+
           <li class="sidebar-dropdown" routerLinkActive="active">
             <a>
-              <i class="fa fa-map-marker"></i>
+              <i class="fa fa-road" aria-hidden="true"></i>
               <span>Rutas</span>
             </a>
             <div class="sidebar-submenu" routerLinkActive="active">
@@ -95,6 +112,7 @@
               </ul>
             </div>
           </li>
+
           <li class="sidebar-dropdown" routerLinkActive="active">
             <a>
               <i class="fa fa-users"></i>
@@ -104,7 +122,7 @@
               <ul>
                 <li>
                   <a [routerLink]="['/users']" routerLinkActive="active">
-                    Usuarios
+                    Administradores
                   </a>
                 </li>
                 <li>

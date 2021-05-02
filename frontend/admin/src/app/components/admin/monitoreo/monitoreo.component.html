@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-sm-9">
+<div class="d-flex align-content-center justify-content-end">
+  <div class="flex-grow-1 mr-3">
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
       <agm-direction
         *ngIf="selectedRutaView"
@@ -27,26 +27,23 @@
       </ng-container>
     </agm-map>
   </div>
-  <div class="col-sm-3">
+  <div>
     <h4>Rutas Registradas:</h4>
     <ul class="list-group">
       <li
-        class="list-group-item d-flex justify-content-between align-items-center"
+        class="list-group-item d-flex align-content-center justify-content-end"
         *ngFor="let ruta of rutas"
       >
-        {{ ruta.name }}
-        <!-- <button
-          class="badge btn btn-primary rounded-pill text-white p-2"
-          (click)="asignar(ruta)"
-        >
-          <i class="fa fa-user-tag"></i>&nbsp;Asignar
-        </button> -->
-        <button
-          class="badge btn btn-primary rounded-pill text-white p-2"
-          (click)="showRuta(ruta)"
-        >
-          <i class="fa fa-eye"></i>&nbsp;Ver
-        </button>
+        <span class="flex-grow-1">
+          {{ ruta.name }}
+        </span>
+        <div class="btn-toolbar" role="toolbar" aria-label="Acciones de ruta">
+          <div class="btn-group mr-2" role="group">
+            <button class="badge btn btn-primary" (click)="showRuta(ruta)">
+              <i class="fa fa-eye"></i>&nbsp;Ver
+            </button>
+          </div>
+        </div>
       </li>
     </ul>
     <hr />
@@ -60,10 +57,12 @@
         {{ driver.name }}&nbsp;{{ driver.surname }}
         <br />
         <strong>Ubicación:</strong>
-        {{ driver.location.latLng.lat }}
         <br />
-        {{ driver.location.latLng.lng }}
-        <br />
+        <div class="block">
+          <span> Lat:&nbsp;{{ driver.location.latLng.lat + ", " }} </span>
+          <br />
+          <span> Lng:&nbsp;{{ driver.location.latLng.lng }} </span>
+        </div>
         <strong>Última vez:</strong>
         <br />
         {{ getRelativeTime(driver.last_login) }}

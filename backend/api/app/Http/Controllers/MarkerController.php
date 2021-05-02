@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Traits\ApiResponser;
+use App\Models\Marker;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class MarkerController extends Controller
 {
-    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $this->successResponse(User::all());
+        //
     }
 
     /**
@@ -43,21 +41,21 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Marker  $marker
      * @return \Illuminate\Http\Response
      */
-    public function show($user)
+    public function show(Marker $marker)
     {
-        return $this->successResponse(User::findOrFail($user));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Marker  $marker
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Marker $marker)
     {
         //
     }
@@ -66,24 +64,21 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Marker  $marker
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user)
+    public function update(Request $request, Marker $marker)
     {
-        $user = User::findOrFail($user);
-        $user->update($request->all());
-        $user->save();
-        return $this->successResponse($user, 'Usuario actuailzado con éxito');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Marker  $marker
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Marker $marker)
     {
         //
     }

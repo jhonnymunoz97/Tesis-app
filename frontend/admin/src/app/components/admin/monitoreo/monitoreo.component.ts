@@ -117,7 +117,7 @@ export class MonitoreoComponent implements OnInit {
   viewDriver(driver: Driver) {
     this.lat = driver.location.latLng.lat;
     this.lng = driver.location.latLng.lng;
-    this.zoom = 19;
+    this.zoom = 15;
   }
   getRelativeTime(timestamp) {
     return moment(timestamp).startOf('minutes').fromNow();

@@ -25,6 +25,7 @@ import { NewRouteComponent } from './components/admin/new-route/new-route.compon
 import { RoutesComponent } from './components/admin/routes/routes.component';
 import { AgmDirectionModule } from 'agm-direction';
 import { MonitoreoComponent } from './components/admin/monitoreo/monitoreo.component';
+import { UsersComponent } from './components/admin/users/users.component';
 
 declare var google;
 @NgModule({
@@ -41,6 +42,7 @@ declare var google;
     NewRouteComponent,
     RoutesComponent,
     MonitoreoComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,

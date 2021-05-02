@@ -72,11 +72,6 @@
                     En línea
                   </a>
                 </li>
-                <li>
-                  <a [routerLink]="['/drivers']" routerLinkActive="active">
-                    Todos
-                  </a>
-                </li>
               </ul>
             </div>
           </li>
@@ -95,6 +90,31 @@
                 <li>
                   <a [routerLink]="['/monitoreo']" routerLinkActive="active">
                     Monitoreo
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown" routerLinkActive="active">
+            <a>
+              <i class="fa fa-users"></i>
+              <span>Usuarios</span>
+            </a>
+            <div class="sidebar-submenu" routerLinkActive="active">
+              <ul>
+                <li>
+                  <a [routerLink]="['/users']" routerLinkActive="active">
+                    Usuarios
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/drivers']" routerLinkActive="active">
+                    Conductores
+                  </a>
+                </li>
+                <li>
+                  <a [routerLink]="['/customers']" routerLinkActive="active">
+                    Clientes
                   </a>
                 </li>
               </ul>

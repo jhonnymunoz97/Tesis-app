@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,13 +32,16 @@ Route::group(['middleware' => 'api'], function () {
 /**Protegidas */
 Route::group([
     'middleware' => ['auth:api', 'last_login'],
-], function ($router) {
+], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('test', [AuthController::class, 'test'])->name('test');
-});
 
-Route::apiResources([
-    'drivers' => DriverController::class
-]);
+    Route::apiResources([
+        'drivers' => DriverController::class
+    ]);
+    Route::apiResources([
+        'users' => UserController::class
+    ]);
+});

@@ -58,7 +58,7 @@ class DriverController extends Controller
         //
     }
 
-    public function show($driver)
+    public function show(Driver $driver)
     {
         return $this->successResponse(Driver::findOrFail($driver));
     }

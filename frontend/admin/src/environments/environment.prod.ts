@@ -1,6 +1,6 @@
 export const environment = {
   appName: 'ITSUP',
-  appEmail: 'admin@itup-ec.com',
+  appEmail: 'admin@sistema.test',
   apiUrl: 'https://tesis.cicmanabi.com',
   production: true,
   firebaseConfig: {

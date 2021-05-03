@@ -1,6 +1,8 @@
 <div class="d-flex align-content-center justify-content-end">
   <div class="flex-grow-1 mr-3">
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      <agm-map-type-control></agm-map-type-control>
+
       <agm-direction
         *ngIf="selectedRutaView"
         [origin]="selectedRutaView.origin"

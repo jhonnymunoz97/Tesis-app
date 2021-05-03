@@ -2,6 +2,7 @@ import { AgmGeocoder } from '@agm/core';
 import { Component, OnInit } from '@angular/core';
 import { Marker } from 'src/app/models/marker';
 import { Ruta } from 'src/app/models/ruta';
+import { MarkerService } from 'src/app/services/marker.service';
 import { RutasService } from 'src/app/services/rutas.service';
 
 @Component({
@@ -19,10 +20,12 @@ export class MarkersComponent implements OnInit {
   markers: Marker[] = [];
   constructor(
     private rutasService: RutasService,
+    private markerService: MarkerService,
     private geocoder: AgmGeocoder
   ) {}
   isEditing = false;
   isNew = false;
+  isShow = false;
   editada: Ruta = {
     destination: null,
     name: null,
@@ -30,26 +33,15 @@ export class MarkersComponent implements OnInit {
     waypoints: null,
   };
   ngOnInit(): void {
-    this.getRutas();
+    this.getMarkers();
   }
-  getRutas() {
-    this.rutasService.getRutas().subscribe((rutas: Ruta[]) => {
-      this.rutas = rutas;
+  getMarkers() {
+    this.markerService.getMarkers().subscribe((markers: Marker[]) => {
+      this.markers = markers;
+      console.log(this.markers);
     });
   }
-  showRuta(ruta: Ruta) {
-    this.isEditing = false;
 
-    this.selectedRutaView = ruta;
-    this.editada.$key = ruta.$key;
-    this.editada.name = ruta.name;
-    this.editada.origin = ruta.origin;
-    this.editada.destination = ruta.destination;
-    if (ruta.waypoints) {
-      this.editada.waypoints = ruta.waypoints;
-      this.editada.waypoints = [];
-    }
-  }
   onCenterChange(evt) {
     const { lat, lng } = evt;
     this.selectedMarker = { lat, lng };
@@ -59,6 +51,7 @@ export class MarkersComponent implements OnInit {
     this.zoom = 18;
     this.selectedMarker = new Marker();
     this.isNew = true;
+    this.isEditing = false;
   }
 
   showEvent(evt) {
@@ -78,22 +71,38 @@ export class MarkersComponent implements OnInit {
         },
       })
       .subscribe((data) => {
-        this.selectedMarker = {
-          title: data[0].formatted_address,
-          lat: data[0].geometry.location.lat(),
-          lng: data[0].geometry.location.lng(),
-        };
+        this.selectedMarker.title = data[0].formatted_address;
+        this.selectedMarker.lat = marker.lat;
+        this.selectedMarker.lng = marker.lng;
       });
   }
-  onMouseOver(infoWindow, gm) {
-    if (gm.lastOpen != null) {
-      gm.lastOpen.close();
-    }
-    gm.lastOpen = infoWindow;
-    infoWindow.open();
+
+  showMarker(marker: Marker) {
+    this.zoom = 13;
+    this.selectedMarker = marker;
+    this.lat = marker.lat;
+    this.lng = marker.lng;
+    this.isShow = true;
+    this.zoom = 18;
+  }
+  editMarker(marker: Marker) {
+    this.zoom = 13;
+    this.selectedMarker = marker;
+    this.lat = marker.lat;
+    this.lng = marker.lng;
+    this.isShow = false;
+    this.isNew = false;
+    this.isEditing = true;
+    this.zoom = 18;
   }
 
   saveMarker() {
-    console.log(this.selectedMarker);
+    if (this.isNew) {
+      delete this.selectedMarker.$key;
+      console.log(this.selectedMarker);
+      this.markerService.addMarker(this.selectedMarker).then(() => {});
+    } else if (this.isEditing) {
+      this.markerService.editMarker(this.selectedMarker);
+    }
   }
 }

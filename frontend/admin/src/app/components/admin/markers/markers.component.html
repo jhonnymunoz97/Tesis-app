@@ -1,6 +1,8 @@
 <div class="d-flex align-content-center justify-content-end">
   <div class="flex-grow-1 mr-3">
     <agm-map #gm [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      <agm-map-type-control></agm-map-type-control>
+
       <agm-direction
         *ngIf="selectedRutaView"
         [origin]="selectedRutaView.origin"
@@ -16,7 +18,14 @@
         [longitude]="selectedMarker.lng"
         [markerDraggable]="true"
         (dragEnd)="showEvent($event)"
-        (mouseOver)="onMouseOver(infoWindow, gm)"
+      ></agm-marker>
+      <agm-marker
+        *ngFor="let marker of markers"
+        [visible]="marker.visible"
+        [latitude]="marker.lat"
+        [longitude]="marker.lng"
+        [markerDraggable]="isEditing"
+        (dragEnd)="showEvent($event)"
       ></agm-marker>
     </agm-map>
     <div
@@ -31,7 +40,7 @@
       </span>
     </div>
   </div>
-  <div>
+  <div style="max-width: 25%">
     <h4>Puntos de recolección:</h4>
     <div class="btn-group mr-2" role="group">
       <button class="badge btn btn-primary" (click)="createMarker()">
@@ -51,7 +60,7 @@
         aria-describedby="markerDescriptionHelp"
         placeholder="Identifique el punto"
         [(ngModel)]="selectedMarker.description"
-        [disabled]="selectedMarker.title == 'Cargando...'"
+        [disabled]="selectedMarker.title == 'Cargando...' || isShow"
       />
       <small id="markerDescriptionHelp" class="form-text text-muted">
         Escriba un nombre que permita identificar el punto
@@ -62,7 +71,9 @@
             type="button"
             class="btn btn-primary"
             [disabled]="
-              (!selectedMarker.description || !selectedMarker.title) &&
+              (!selectedMarker.description ||
+                !selectedMarker.title ||
+                isShow) &&
               !selectedMarker.description != 'Cargando...'
             "
             (click)="saveMarker()"
@@ -83,9 +94,15 @@
       >
         <div class="btn-group mr-2" role="group">
           <button class="badge btn btn-primary" (click)="showMarker(marker)">
-            <i class="fa fa-eye"></i>&nbsp;{{ marker.name }}
+            <i class="fa fa-eye"></i>
+          </button>
+          <button class="badge btn btn-warning" (click)="editMarker(marker)">
+            <i class="fa fa-edit"></i>
           </button>
         </div>
+        <span class="mr-1 flex-grow-1">
+          {{ marker.description }}
+        </span>
       </li>
     </ul>
   </div>

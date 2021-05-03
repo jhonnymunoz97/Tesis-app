@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-sm-9">
     <agm-map [latitude]="lat" [zoom]="zoom" [longitude]="lng">
+      <agm-map-type-control></agm-map-type-control>
       <ng-container *ngFor="let driver of drivers">
         <agm-marker
           [latitude]="driver.location.latLng.lat"

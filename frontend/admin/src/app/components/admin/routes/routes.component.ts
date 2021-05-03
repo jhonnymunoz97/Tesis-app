@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Driver } from 'src/app/models/driver';
 import { Location, Ruta } from 'src/app/models/ruta';
 import { DriverService } from 'src/app/services/driver.service';
 import { RutasService } from 'src/app/services/rutas.service';
@@ -20,7 +19,6 @@ export class RoutesComponent implements OnInit {
     waypoints: null,
   };
   rutas: Ruta[] = [];
-  conductores: Driver[] = [];
   selectedRuta: Ruta = null;
   selectedRutaView: Ruta = null;
   lat = -1.0168547484192896;
@@ -33,9 +31,7 @@ export class RoutesComponent implements OnInit {
   newWP;
 
   constructor(
-    private rutasService: RutasService,
-    private driverService: DriverService
-  ) {
+    private rutasService: RutasService  ) {
     this.rutas.push();
   }
 
@@ -46,12 +42,6 @@ export class RoutesComponent implements OnInit {
   getRutas() {
     this.rutasService.getRutas().subscribe((rutas: Ruta[]) => {
       this.rutas = rutas;
-      this.getDrivers();
-    });
-  }
-  getDrivers() {
-    this.driverService.getDrivers().subscribe((conductores: Driver[]) => {
-      this.conductores = conductores;
     });
   }
 
@@ -137,32 +127,6 @@ export class RoutesComponent implements OnInit {
           this.editada.waypoints = newWP;
         }
       }
-    }
-  }
-
-  async asignar(ruta: Ruta) {
-    const { value: driver } = await Swal.fire({
-      title: 'Asigne la ruta a un conductor',
-      input: 'select',
-      inputOptions: Object.assign({
-        ...this.conductores.map((driver) => {
-          return driver.dni + ' - ' + driver.name + ' ' + driver.surname;
-        }),
-      }),
-      inputPlaceholder: '--Seleccine un Conductor--',
-      showCancelButton: true,
-    });
-
-    if (driver) {
-      const newDriver: Driver = JSON.parse(
-        JSON.stringify(this.conductores[driver])
-      );
-      newDriver.ruta = null;
-      console.log(newDriver);
-
-      // ruta.driver = newDriver;
-      this.driverService.editDriver(newDriver);
-      // this.rutasService.editRuta(ruta);
     }
   }
   nuevaRuta() {

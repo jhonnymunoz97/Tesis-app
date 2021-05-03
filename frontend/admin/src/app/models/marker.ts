@@ -1,4 +1,7 @@
 export class Marker {
-  lat: number = -1.0168547484192896;
-  lng: number = -80.45206653126932;
+  id?: number;
+  title?: string;
+  description?: string;
+  lat: number = -1.0536352662907524;
+  lng: number = -80.45873811700869;
 }

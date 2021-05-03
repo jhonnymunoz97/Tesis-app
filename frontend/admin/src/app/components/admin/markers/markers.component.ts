@@ -1,3 +1,4 @@
+import { AgmGeocoder } from '@agm/core';
 import { Component, OnInit } from '@angular/core';
 import { Marker } from 'src/app/models/marker';
 import { Ruta } from 'src/app/models/ruta';
@@ -10,12 +11,16 @@ import { RutasService } from 'src/app/services/rutas.service';
 })
 export class MarkersComponent implements OnInit {
   selectedRutaView: Ruta = null;
-  lat = -1.0168547484192896;
+  lat = -1.0536352662907524;
   zoom = 14;
-  lng = -80.45206653126932;
+  lng = -80.45873811700869;
   rutas: Ruta[] = [];
-  marker: Marker = new Marker();
-  constructor(private rutasService: RutasService) {}
+  selectedMarker: Marker;
+  markers: Marker[] = [];
+  constructor(
+    private rutasService: RutasService,
+    private geocoder: AgmGeocoder
+  ) {}
   isEditing = false;
   isNew = false;
   editada: Ruta = {
@@ -47,6 +52,48 @@ export class MarkersComponent implements OnInit {
   }
   onCenterChange(evt) {
     const { lat, lng } = evt;
-    this.marker = { lat, lng };
+    this.selectedMarker = { lat, lng };
+  }
+
+  createMarker() {
+    this.zoom = 18;
+    this.selectedMarker = new Marker();
+    this.isNew = true;
+  }
+
+  showEvent(evt) {
+    this.getAddress({
+      lat: evt.latLng.lat(),
+      lng: evt.latLng.lng(),
+    });
+  }
+
+  getAddress(marker: Marker) {
+    this.selectedMarker.title = 'Cargando...';
+    this.geocoder
+      .geocode({
+        location: {
+          lat: marker.lat,
+          lng: marker.lng,
+        },
+      })
+      .subscribe((data) => {
+        this.selectedMarker = {
+          title: data[0].formatted_address,
+          lat: data[0].geometry.location.lat(),
+          lng: data[0].geometry.location.lng(),
+        };
+      });
+  }
+  onMouseOver(infoWindow, gm) {
+    if (gm.lastOpen != null) {
+      gm.lastOpen.close();
+    }
+    gm.lastOpen = infoWindow;
+    infoWindow.open();
+  }
+
+  saveMarker() {
+    console.log(this.selectedMarker);
   }
 }

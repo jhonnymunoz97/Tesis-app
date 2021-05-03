@@ -2,7 +2,14 @@
   <div class="flex-grow-1 mr-3">
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
       <agm-map-type-control></agm-map-type-control>
-
+      <agm-marker
+        *ngFor="let marker of markers"
+        [visible]="marker.visible"
+        [latitude]="marker.lat"
+        [longitude]="marker.lng"
+        [markerDraggable]="isEditing"
+        (dragEnd)="showEvent($event)"
+      ></agm-marker>
       <agm-direction
         *ngIf="selectedRutaView"
         [origin]="selectedRutaView.origin"

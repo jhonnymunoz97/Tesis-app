@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Driver } from 'src/app/models/driver';
+import { Marker } from 'src/app/models/marker';
 import { Ruta } from 'src/app/models/ruta';
 import { DriverService } from 'src/app/services/driver.service';
+import { MarkerService } from 'src/app/services/marker.service';
 import { RutasService } from 'src/app/services/rutas.service';
 
 @Component({
@@ -24,19 +26,27 @@ export class MonitoreoComponent implements OnInit {
   lat = -1.0168547484192896;
   lng = -80.45206653126932;
   zoom = 14;
-
+  markers: Marker[] = [];
   renderOptions = {
     draggable: false,
   };
   constructor(
     private rutasService: RutasService,
-    private driverService: DriverService
+    private driverService: DriverService,
+    private markerService: MarkerService
   ) {
     moment.locale('es-MX');
   }
 
   ngOnInit(): void {
     this.getRutas();
+    this.getMarkers();
+  }
+  getMarkers() {
+    this.markerService.getMarkers().subscribe((markers: Marker[]) => {
+      this.markers = markers;
+      console.log(this.markers);
+    });
   }
 
   getRutas() {

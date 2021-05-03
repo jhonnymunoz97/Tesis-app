@@ -39,8 +39,6 @@ export class ErrorInterceptor implements HttpInterceptor {
               icon: 'success',
               title: 'Operación exitosa',
               html: msj.reduce((html, item) => {
-                console.log(item);
-
                 return html + item + '<br/>';
               }, ''),
               showConfirmButton: false,
@@ -53,13 +51,23 @@ export class ErrorInterceptor implements HttpInterceptor {
         }
       }),
       catchError((err) => {
-        if (err.status === 401 || err.status === 500) {
-          // auto logout if 401 response returned from api
-          this.authenticationService.logout();
-          window.location.reload();
+        if (err.status == 401 || err.status == 500) {
+          Swal.fire({
+            allowOutsideClick: false,
+            position: 'center',
+            icon: 'warning',
+            title: 'Tu sesión expiró, debes iniciar sesión de nuevo',
+            showConfirmButton: false,
+            timer: 2500,
+          }).then(() => {
+            // auto logout if 401 response returned from api
+            this.authenticationService.logout();
+            window.location.reload();
+          });
         } else if (err.status === 403) {
           this.router.navigate(['/not-authorized']);
         }
+
         let error = err.error.messages || err.error.message || err.statusText;
         if (!Array.isArray(error)) {
           error = [error];
@@ -70,6 +78,17 @@ export class ErrorInterceptor implements HttpInterceptor {
           icon: 'error',
           title: 'Error',
           html: error.reduce((html, item) => {
+            if (error == 'No estás autenticado.') {
+              Swal.fire({
+                allowOutsideClick: false,
+                position: 'center',
+                icon: 'warning',
+                title: 'Tu sesión expiró, debes iniciar sesión de nuevo',
+                showConfirmButton: false,
+                timer: 2500,
+              });
+              this.authenticationService.logout();
+            }
             return html + item + '<br/>';
           }, ''),
           showConfirmButton: false,

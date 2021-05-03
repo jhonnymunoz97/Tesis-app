@@ -15,6 +15,7 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { User } from './models/user';
 import { UserComponent } from './components/admin/users/user/user.component';
 import { MarkersComponent } from './components/admin/markers/markers.component';
+import { RouteAssignComponent } from './components/admin/route-assign/route-assign.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,11 @@ const routes: Routes = [
   {
     path: 'routes',
     component: RoutesComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'route-assign',
+    component: RouteAssignComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
   {

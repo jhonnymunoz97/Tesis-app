@@ -54,9 +54,21 @@ export class ErrorInterceptor implements HttpInterceptor {
       }),
       catchError((err) => {
         if (err.status === 401 || err.status === 500) {
-          // auto logout if 401 response returned from api
-          this.authenticationService.logout();
-          window.location.reload();
+          Swal.fire({
+            allowOutsideClick: false,
+            position: 'center',
+            icon: 'warning',
+            title: 'Tu sesión expiró, debes iniciar sesión de nuevo',
+            showConfirmButton: false,
+            timer: 2500,
+          }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+              // auto logout if 401 response returned from api
+              this.authenticationService.logout();
+              window.location.reload();
+            }
+          });
         } else if (err.status === 403) {
           this.router.navigate(['/not-authorized']);
         }

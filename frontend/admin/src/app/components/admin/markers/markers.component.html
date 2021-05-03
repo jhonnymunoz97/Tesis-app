@@ -1,0 +1,109 @@
+<div class="d-flex align-content-center justify-content-end">
+  <div class="flex-grow-1 mr-3">
+    <agm-map #gm [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+      <agm-map-type-control></agm-map-type-control>
+
+      <agm-direction
+        *ngIf="selectedRutaView"
+        [origin]="selectedRutaView.origin"
+        [destination]="selectedRutaView.destination"
+        [waypoints]="selectedRutaView.waypoints"
+        [renderOptions]="renderOptions"
+      >
+      </agm-direction>
+      <agm-marker
+        *ngIf="selectedMarker"
+        [visible]="isEditing || isNew"
+        [latitude]="selectedMarker.lat"
+        [longitude]="selectedMarker.lng"
+        [markerDraggable]="true"
+        (dragEnd)="showEvent($event)"
+      ></agm-marker>
+      <agm-marker
+        *ngFor="let marker of markers"
+        [visible]="marker.visible"
+        [latitude]="marker.lat"
+        [longitude]="marker.lng"
+        [markerDraggable]="isEditing"
+        (dragEnd)="showEvent($event)"
+      ></agm-marker>
+    </agm-map>
+    <div
+      *ngIf="isEditing || isNew"
+      class="alert alert-primary my-0 py-0 rounded-0 border-danger"
+      role="alert"
+    >
+      <span>
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+        &nbsp; Arrastre el marcador quede hasta que quede ubicado en el lugar
+        deseado
+      </span>
+    </div>
+  </div>
+  <div style="max-width: 25%">
+    <h4>Puntos de recolección:</h4>
+    <div class="btn-group mr-2" role="group">
+      <button class="badge btn btn-primary" (click)="createMarker()">
+        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Crear nuevo
+      </button>
+    </div>
+    <div class="form-group mt-1 mb-0" *ngIf="selectedMarker">
+      <h6>
+        {{ selectedMarker.title }}
+      </h6>
+      <label for="description">Nombre o Descripción:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="description"
+        id="description"
+        aria-describedby="markerDescriptionHelp"
+        placeholder="Identifique el punto"
+        [(ngModel)]="selectedMarker.description"
+        [disabled]="selectedMarker.title == 'Cargando...' || isShow"
+      />
+      <small id="markerDescriptionHelp" class="form-text text-muted">
+        Escriba un nombre que permita identificar el punto
+      </small>
+      <div class="row">
+        <div class="col col-12 col-lg-6">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="
+              (!selectedMarker.description ||
+                !selectedMarker.title ||
+                isShow) &&
+              !selectedMarker.description != 'Cargando...'
+            "
+            (click)="saveMarker()"
+          >
+            <i class="fa fa-save" aria-hidden="true"></i>
+            &nbsp;Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <ul class="list-group">
+      <li
+        class="list-group-item d-flex align-content-center justify-content-end"
+        *ngFor="let marker of markers"
+      >
+        <div class="btn-group mr-2" role="group">
+          <button class="badge btn btn-primary" (click)="showMarker(marker)">
+            <i class="fa fa-eye"></i>
+          </button>
+          <button class="badge btn btn-warning" (click)="editMarker(marker)">
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <span class="mr-1 flex-grow-1">
+          {{ marker.description }}
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>

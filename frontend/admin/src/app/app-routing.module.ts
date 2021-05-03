@@ -14,6 +14,7 @@ import { MonitoreoComponent } from './components/admin/monitoreo/monitoreo.compo
 import { UsersComponent } from './components/admin/users/users.component';
 import { User } from './models/user';
 import { UserComponent } from './components/admin/users/user/user.component';
+import { MarkersComponent } from './components/admin/markers/markers.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,13 @@ const routes: Routes = [
     component: NewRouteComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
+
+  {
+    path: 'markers',
+    component: MarkersComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+
   { path: 'login', component: LoginComponent },
 
   {

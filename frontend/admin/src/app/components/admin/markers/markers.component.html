@@ -1,0 +1,52 @@
+<div class="d-flex align-content-center justify-content-end">
+  <div class="flex-grow-1 mr-3">
+    <agm-map
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom"
+      (centerChange)="onCenterChange($event)"
+    >
+      <agm-direction
+        *ngIf="selectedRutaView"
+        [origin]="selectedRutaView.origin"
+        [destination]="selectedRutaView.destination"
+        [waypoints]="selectedRutaView.waypoints"
+        [renderOptions]="renderOptions"
+      >
+      </agm-direction>
+      <agm-marker [latitude]="marker.lat" [longitude]="marker.lng"></agm-marker>
+    </agm-map>
+    <div
+      class="alert alert-primary my-0 py-0 rounded-0 border-danger"
+      role="alert"
+    >
+      <span>
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+        &nbsp; Arrastre la línea, los puntos "A" y "B" para modificarla la ruta
+      </span>
+    </div>
+  </div>
+  <div>
+    <h4>Rutas:</h4>
+    <ng-container *ngIf="selectedRutaView">
+      <hr />
+      <h4>
+        {{ selectedRutaView.name }}
+      </h4>
+    </ng-container>
+    <hr />
+
+    <ul class="list-group">
+      <li
+        class="list-group-item d-flex align-content-center justify-content-end"
+        *ngFor="let ruta of rutas"
+      >
+        <div class="btn-group mr-2" role="group">
+          <button class="badge btn btn-primary" (click)="showRuta(ruta)">
+            <i class="fa fa-eye"></i>&nbsp;{{ ruta.name }}
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

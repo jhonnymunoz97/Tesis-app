@@ -66,7 +66,6 @@ export class RoutesComponent implements OnInit {
     if (ruta.waypoints) {
       this.editada.waypoints = ruta.waypoints;
       this.editada.waypoints = [];
-    } else {
     }
   }
   editRuta(ruta: Ruta) {

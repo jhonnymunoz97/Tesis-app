@@ -1,8 +1,7 @@
 import { Ruta } from './ruta';
+import { User } from './user';
 
-export interface Driver {
-  $key?: string; // Angular necesita este campo.
-  id?: number | string;
+export class Driver extends User {
   dni: string;
   name: string;
   surname: string;
@@ -11,6 +10,12 @@ export interface Driver {
   licencia: string;
   last_login: Date;
   location?: any;
-  verified?: boolean;
-  ruta?: Ruta;
+
+  id: number;
+
+  verified: boolean;
+  role: string;
+  profilePhoto: string = 'https://i.pravatar.cc/1000';
+  // tslint:disable-next-line: variable-name
+  access_token?: any;
 }

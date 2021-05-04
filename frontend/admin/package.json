@@ -24,6 +24,7 @@
     "@types/google-maps": "^3.2.2",
     "agm-direction": "^0.8.9",
     "angular-datatables": "^10.0.0",
+    "bootstrap-select": "^1.13.18",
     "datatables.net": "^1.10.22",
     "datatables.net-buttons": "^1.7.0",
     "datatables.net-buttons-dt": "^1.7.0",

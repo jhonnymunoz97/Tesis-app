@@ -1,1 +1,73 @@
-<p>route-assign works!</p>
+<div class="container-fluid">
+  <h3>Asignación de rutas</h3>
+  <hr />
+  <div class="d-flex">
+    <div class="form-group mr-3">
+      <label for="driver_id">Conductor</label>
+      <select
+        class="form-control selectpicker"
+        name="driver_id"
+        id="driver_id"
+        (change)="selectDriver($event)"
+      >
+        <option *ngFor="let driver of drivers" [value]="driver.id">
+          {{ driver.name + " " + driver.surname }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group mr-3">
+      <label for="ruta_id">Ruta</label>
+      <select class="form-control selectpicker" name="ruta_id" id="ruta_id">
+        <option *ngFor="let ruta of rutas" [value]="ruta.$key">
+          {{ ruta.name }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group mr-3">
+      <label for="day">Día</label>
+      <select
+        class="form-control selectpicker"
+        name="day"
+        id="day"
+        [(ngModel)]="horario.day"
+      >
+        <option>Lunes</option>
+        <option>Martes</option>
+        <option>Miércoles</option>
+        <option>Jueves</option>
+        <option>Jueves</option>
+        <option>Viernes</option>
+        <option>Sábado</option>
+        <option>Domingo</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="start_hour">Horario</label>
+      <div class="d-flex">
+        <input
+          type="time"
+          class="form-control mr-3"
+          name="start_hour"
+          id="start_hour"
+          aria-describedby="horarioHelp"
+          placeholder="10:00"
+          [(ngModel)]="horario.start_hour"
+        />
+        <input
+          type="time"
+          class="form-control mr-3"
+          name="end_hour"
+          id="end_hour"
+          aria-describedby="horarioHelp"
+          placeholder="10:00"
+          [(ngModel)]="horario.end_hour"
+        />
+      </div>
+      <small id="horarioHelp" class="form-text text-muted">
+        Ingresa la hora de entrada y salida
+      </small>
+    </div>
+  </div>
+  <hr />
+
+</div>

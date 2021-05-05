@@ -129,14 +129,18 @@
         <i class="fa fa-plus"></i>&nbsp;Agregar
       </button>
     </div>
-    <div class="container">
-      <button
-        class="btn btn-primary badge badge-primary mr-3"
-        *ngFor="let horario of selectedAssign.horarios"
-      >
+    <div
+      class="btn-toolbar"
+      role="toolbar"
+      *ngFor="let horario of selectedAssign.horarios"
+    >
+      <button class="badge btn-primary badge badge-primary mr-3">
         {{ horario.road.name }}.&nbsp;{{ horario.day }}:&nbsp;
         {{ horario.start_hour }}&nbsp;-&nbsp;
         {{ horario.end_hour }}
+      </button>
+      <button class="badge btn-danger">
+        <i class="fa fa-trash" aria-hidden="true"></i>
       </button>
     </div>
   </div>

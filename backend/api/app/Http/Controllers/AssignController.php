@@ -37,7 +37,7 @@ class AssignController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->successResponse(Assign::create($request->all()));
     }
 
     /**

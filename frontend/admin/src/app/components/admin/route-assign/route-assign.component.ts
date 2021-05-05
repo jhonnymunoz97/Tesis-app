@@ -69,16 +69,16 @@ export class RouteAssignComponent implements OnInit {
     console.log(this.selectedAssign);
   }
   addHorario() {
-    const newHorario = JSON.parse(JSON.stringify(this.horario));
+    /**
+     * @todo Evitar duplicados
+     */
     if (
-      this.selectedAssign.horarios.map((horario) => {
-        const oldHorario = JSON.stringify(horario);
-        if (oldHorario != JSON.stringify(newHorario)) {
-          return horario;
-        }
-      }).length == 0
+      !this.containsObject(
+        { ...this.horario },
+        { ...this.selectedAssign.horarios }
+      )
     ) {
-      this.selectedAssign.horarios.push(newHorario);
+      this.selectedAssign.horarios.push({ ...this.horario });
     } else {
       Swal.fire({
         icon: 'warning',
@@ -87,5 +87,14 @@ export class RouteAssignComponent implements OnInit {
         showConfirmButton: false,
       });
     }
+  }
+  containsObject(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (list[i] === obj) {
+        return true;
+      }
+    }
+    return false;
   }
 }

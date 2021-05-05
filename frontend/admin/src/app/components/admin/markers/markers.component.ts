@@ -48,10 +48,13 @@ export class MarkersComponent implements OnInit {
   }
 
   createMarker() {
-    this.zoom = 18;
+    this.zoom = 19;
     this.selectedMarker = new Marker();
+    this.lat = this.selectedMarker.lat;
+    this.lng = this.selectedMarker.lng;
     this.isNew = true;
     this.isEditing = false;
+    this.isShow = false;
   }
 
   showEvent(evt) {
@@ -74,6 +77,8 @@ export class MarkersComponent implements OnInit {
         this.selectedMarker.title = data[0].formatted_address;
         this.selectedMarker.lat = marker.lat;
         this.selectedMarker.lng = marker.lng;
+        this.lng = marker.lng;
+        this.lng = marker.lng;
       });
   }
 
@@ -83,7 +88,7 @@ export class MarkersComponent implements OnInit {
     this.lat = marker.lat;
     this.lng = marker.lng;
     this.isShow = true;
-    this.zoom = 18;
+    this.zoom = 19;
   }
   editMarker(marker: Marker) {
     this.zoom = 13;

@@ -28,6 +28,7 @@ import { MonitoreoComponent } from './components/admin/monitoreo/monitoreo.compo
 import { UsersComponent } from './components/admin/users/users.component';
 import { UserComponent } from './components/admin/users/user/user.component';
 import { MarkersComponent } from './components/admin/markers/markers.component';
+import { RouteAssignComponent } from './components/admin/route-assign/route-assign.component';
 
 declare var google;
 @NgModule({
@@ -47,6 +48,7 @@ declare var google;
     UsersComponent,
     UserComponent,
     MarkersComponent,
+    RouteAssignComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Assign;
 use Illuminate\Http\Request;
+use App\Traits\ApiResponser;
 
 class AssignController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class AssignController extends Controller
      */
     public function index()
     {
-        //
+        return $this->successResponse(Assign::all());
     }
 
     /**

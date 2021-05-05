@@ -6,6 +6,7 @@ import { Driver } from 'src/app/models/driver';
 import { Ruta } from 'src/app/models/ruta';
 import { RutasService } from 'src/app/services/rutas.service';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-route-assign',
@@ -44,7 +45,6 @@ export class RouteAssignComponent implements OnInit {
           }
           return driver;
         });
-
         // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
       });
@@ -58,11 +58,34 @@ export class RouteAssignComponent implements OnInit {
 
   selectRuta(ruta) {
     this.selectedRuta = this.rutas[ruta.target.value as number];
+    this.horario.road = this.selectedRuta;
   }
   getRutas() {
     this.rutasService.getRutas().subscribe((rutas: Ruta[]) => {
       this.rutas = rutas;
-      console.log(rutas);
     });
+  }
+  saveAssign() {
+    console.log(this.selectedAssign);
+  }
+  addHorario() {
+    const newHorario = JSON.parse(JSON.stringify(this.horario));
+    if (
+      this.selectedAssign.horarios.map((horario) => {
+        const oldHorario = JSON.stringify(horario);
+        if (oldHorario != JSON.stringify(newHorario)) {
+          return horario;
+        }
+      }).length == 0
+    ) {
+      this.selectedAssign.horarios.push(newHorario);
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        text: 'La ruta ya fue agregada',
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
   }
 }

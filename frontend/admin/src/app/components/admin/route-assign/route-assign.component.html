@@ -6,7 +6,7 @@
       <div class="form-group mr-3">
         <label for="driver_id">Conductor</label>
         <select
-          class="form-control selectpicker"
+          class="form-control"
           name="driver_id"
           id="driver_id"
           (change)="selectDriver($event)"
@@ -67,7 +67,7 @@
     >
       <div class="form-group mr-3">
         <label for="ruta_id">Ruta</label>
-        <select class="form-control selectpicker" (change)="selectRuta($event)">
+        <select class="form-control" (change)="selectRuta($event)">
           <option [value]="null" selected disabled>Seleccione una ruta</option>
           <option *ngFor="let ruta of rutas; let i = index" [value]="i">
             {{ ruta.name }}
@@ -80,7 +80,7 @@
       <div class="form-group mr-3">
         <label for="day">Día</label>
         <select
-          class="form-control selectpicker"
+          class="form-control"
           name="day"
           id="day"
           [(ngModel)]="horario.day"

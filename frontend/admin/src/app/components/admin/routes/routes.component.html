@@ -39,7 +39,7 @@
           id="nomrbre"
           placeholder="Ruta X"
           [(ngModel)]="editada.name"
-          [disabled]="!isEditing"
+          [enabled]="isEditing || isNew"
         />
       </div>
       <ul>

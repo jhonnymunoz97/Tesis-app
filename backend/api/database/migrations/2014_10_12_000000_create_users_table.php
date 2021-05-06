@@ -44,12 +44,12 @@ class CreateUsersTable extends Migration
         ]);
 
         User::create([
-            'dni' => '1234567890',
+            'dni' => '1313672154',
             'name' => 'Jhonny Javier',
             'surname' => 'Muñoz Cedeño',
-            'email' => 'jmunoz2154@fci.edu.ec',
-            'password' => Hash::make('1234567890'),
-            'role' => User::ROLE_USER,
+            'email' => 'jmunoz2154@utm.edu.ec',
+            'password' => Hash::make('1313672154'),
+            'role' => User::ROLE_SUPER_USER,
         ]);
     }
 

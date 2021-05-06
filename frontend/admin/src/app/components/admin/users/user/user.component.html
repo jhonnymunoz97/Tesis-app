@@ -85,7 +85,7 @@
                   name="name"
                   id="name"
                   aria-describedby="nameHelp"
-                  placeholder="Cedeño Zambrano"
+                  placeholder="Juan Carlos"
                   [disabled]="!isEditOrAdd"
                   [(ngModel)]="user.name"
                 />
@@ -147,23 +147,38 @@
                   [(ngModel)]="user.role"
                 >
                   <option>Administrador</option>
+                  <option>Conductor</option>
                   <option>Usuario</option>
                 </select>
               </div>
             </div>
-            <div class="col col-12 col-md-6">
+            <div class="col col-12 col-md-6" *ngIf="user.role == 'Conductor'">
               <div class="form-group">
-                <label for="">Contraseña:</label>
-                <br />
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  [disabled]="!isEditOrAdd"
-                >
-                  <i class="fa fa-key" aria-hidden="true"></i>
-                  Generar nueva contraseña
-                </button>
+                <label for="licence">Licencia de conducir</label>
+                <input
+                  type="file"
+                  class="form-control-file"
+                  name="licence"
+                  id="licence"
+                  placeholder="Licencia en foto"
+                  aria-describedby="licenceHelp"
+                  (change)="onSelectLicense($event)"
+                />
+                <small id="licenceHelp" class="form-text text-muted">
+                  Debe subir una foto clara y legible de la licencia de conducir
+                </small>
               </div>
+            </div>
+          </div>
+          <hr />
+          <div class="row text-center">
+            <div class="col text-center">
+              <img
+                *ngIf="user.license"
+                [src]="user.license"
+                class="img-fluid img-thumbnail mw-75"
+                alt=""
+              />
             </div>
           </div>
         </div>

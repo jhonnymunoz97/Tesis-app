@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, CanResetPassword
 {
     use SoftDeletes;
+    use Notifiable;
     const ROLE_SUPER_USER = 'Administrador';
     const ROLE_DRIVER = 'Conductor';
     const ROLE_USER = 'Usuario';
@@ -67,3 +70,5 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(UserVerification::class);
     }
 }
+
+

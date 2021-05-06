@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -37,7 +39,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+
+
+        $fields = $request->all();
+        $fields['password'] = Hash::make($request->dni);
+        $user = User::create(
+            $fields
+        );
+        Password::sendResetLink(
+            $request->only('email')
+        );
+        return $this->successResponse(
+            $user,
+            'Usuario creado con éxito'
+        );
     }
 
     /**

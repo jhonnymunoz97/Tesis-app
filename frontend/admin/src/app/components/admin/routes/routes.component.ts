@@ -30,8 +30,7 @@ export class RoutesComponent implements OnInit {
   };
   newWP;
 
-  constructor(
-    private rutasService: RutasService  ) {
+  constructor(private rutasService: RutasService) {
     this.rutas.push();
   }
 
@@ -47,7 +46,7 @@ export class RoutesComponent implements OnInit {
 
   showRuta(ruta: Ruta) {
     this.isEditing = false;
-
+    this.isNew = false;
     this.selectedRutaView = ruta;
     this.editada.$key = ruta.$key;
     this.editada.name = ruta.name;

@@ -22,7 +22,7 @@ class CreateDriversTable extends Migration
             $table->string('surname');
             $table->string('email')->unique();
             $table->string('telefono')->nullable();
-            $table->string('licencia')->nullable();
+            $table->string('license')->nullable();
             $table->string('password')->nullable();
             $table->dateTime('last_login')->nullable();
             $table->boolean('verified')->default(false);
@@ -37,7 +37,7 @@ class CreateDriversTable extends Migration
             'email' => 'guirudj007@gmail.com',
             'password' => Hash::make('29011998@Angel'),
             'telefono' => '0939851015',
-            'licencia' => '123456789',
+            'license' => '123456789',
             'verified' => true,
         ]);
         Driver::create([
@@ -47,7 +47,7 @@ class CreateDriversTable extends Migration
             'email' => 'jmunoz2154@fci.edu.ec',
             'password' => Hash::make('1234567890'),
             'telefono' => '0987654321',
-            'licencia' => '2364578910',
+            'license' => '2364578910',
             'verified' => true,
         ]);
     }

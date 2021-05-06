@@ -6,8 +6,9 @@ use App\Models\Driver;
 use App\Traits\ApiResponser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class DriverController extends Controller
 {
@@ -55,7 +56,16 @@ class DriverController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $driver = Driver::create(
+            $request->all()
+        );
+        return $this->successResponse(
+            $driver,
+            'Conductor creado con éxito'
+        );
+        Password::sendResetLink(
+            $request->only('email')
+        );
     }
 
     public function show(Driver $driver)
@@ -83,7 +93,10 @@ class DriverController extends Controller
      */
     public function update(Request $request, Driver $driver)
     {
-        //
+        $driver = Driver::findOrFail($driver);
+        $driver->update($request->all());
+        $driver->save();
+        return $this->successResponse($driver, 'Conductor actuailzado con éxito');
     }
 
     /**

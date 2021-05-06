@@ -19,7 +19,7 @@ class Driver extends Authenticatable implements JWTSubject
         'surname',
         'email',
         'telefono',
-        'licencia',
+        'license',
         'password',
         'verified',
         'last_login'

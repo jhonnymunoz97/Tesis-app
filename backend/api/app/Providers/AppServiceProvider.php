@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return 'https://tesis.cicmanabi.com/reset-password?token=' . $token;
+        });
     }
 
     /**

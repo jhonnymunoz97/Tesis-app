@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { Driver } from 'src/app/models/driver';
 import { Image } from 'src/app/models/image';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
-
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
+  title: string = 'Usuarios';
+  roleShow: string = 'user';
+
   isEditOrAdd: boolean = false;
   user: User | Driver;
   constructor(
@@ -46,23 +49,13 @@ export class UserComponent implements OnInit {
 
   saveUser() {
     this.isEditOrAdd = false;
-    let endpoint;
-    switch (this.user.role) {
-      case 'Conductor':
-        endpoint = '/drivers';
-        break;
 
-      case 'Administrador':
-        endpoint = '/users';
-        break;
-
-      default:
-        endpoint = '/users';
-        break;
-    }
     if (this.user.id) {
       this.httpClient
-        .put<User>(environment.apiUrl + endpoint, this.user)
+        .put<User>(
+          environment.apiUrl + '/users' + '/' + this.user.id,
+          this.user
+        )
         .subscribe((data) => {
           const user: User = (data as any).data;
           if (user.id == this.authService.currentUserValue.id) {
@@ -72,7 +65,7 @@ export class UserComponent implements OnInit {
         });
     } else {
       this.httpClient
-        .post<Driver>(environment.apiUrl + endpoint, this.user)
+        .post<Driver>(environment.apiUrl + '/users', this.user)
         .subscribe((data) => {
           const user: User = (data as any).data;
           if (user.id == this.authService.currentUserValue.id) {

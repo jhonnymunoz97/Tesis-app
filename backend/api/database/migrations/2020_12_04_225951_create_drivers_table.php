@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Driver;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +25,11 @@ class CreateDriversTable extends Migration
             $table->string('telefono')->nullable();
             $table->string('license')->nullable();
             $table->string('password')->nullable();
+            $table->enum('role', [
+                User::ROLE_SUPER_USER,
+                User::ROLE_DRIVER,
+                User::ROLE_USER
+            ])->default(User::ROLE_DRIVER);
             $table->dateTime('last_login')->nullable();
             $table->boolean('verified')->default(false);
             $table->timestamps();

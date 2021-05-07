@@ -19,15 +19,19 @@ export class DriversComponent implements OnInit, OnDestroy {
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {
-    this.dtOptions = MyDTOptions
+    this.dtOptions = MyDTOptions;
     this.getDrivers();
   }
 
   getDrivers() {
     this.httpClient
-      .get<Driver[]>(environment.apiUrl + '/drivers')
+      .get<Driver[]>(environment.apiUrl + '/users')
       .subscribe((data) => {
-        this.drivers = (data as any).data;
+        this.drivers = ((data as any).data as Driver[]).map((driver) => {
+          if (driver.role == 'Conductor') {
+            return driver;
+          }
+        });
         // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
       });

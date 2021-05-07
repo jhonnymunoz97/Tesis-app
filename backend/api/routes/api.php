@@ -49,9 +49,7 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('test', [AuthController::class, 'test'])->name('test');
-
     Route::apiResources([
-        'drivers' => DriverController::class,
         'users' => UserController::class,
         'markers' => MarkerController::class,
     ]);

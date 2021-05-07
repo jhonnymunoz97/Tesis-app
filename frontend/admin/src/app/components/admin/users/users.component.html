@@ -1,15 +1,8 @@
 <div class="container-fluid">
-  <h2>Administradores</h2>
-  <a
-    name="btnNewUser"
-    id="btnNewUser"
-    class="btn btn-primary"
-    [routerLink]="['/users', 'new']"
-    role="button"
-  >
-    <i class="fa fa-user-plus" aria-hidden="true"></i>
-    Nuevo usuario
-  </a>
+  <h2>
+    {{ title }}
+  </h2>
+
   <hr />
   <table
     datatable
@@ -28,24 +21,26 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let person of users">
-        <td>{{ person.id }}</td>
-        <td>{{ person.dni }}</td>
-        <td>{{ person.surname }}</td>
-        <td>{{ person.name }}</td>
-        <td>{{ person.email }}</td>
-        <td>
-          <a
-            name=""
-            id=""
-            class="btn btn-primary"
-            [routerLink]="['/users', person.id]"
-            role="button"
-          >
-            <i class="fa fa-eye" aria-hidden="true"></i>
-          </a>
-        </td>
-      </tr>
+      <ng-container *ngFor="let person of users">
+        <tr *ngIf="person.role == roleShow">
+          <td>{{ person.id }}</td>
+          <td>{{ person.dni }}</td>
+          <td>{{ person.surname }}</td>
+          <td>{{ person.name }}</td>
+          <td>{{ person.email }}</td>
+          <td>
+            <a
+              name=""
+              id=""
+              class="btn btn-primary"
+              [routerLink]="['/users', person.id]"
+              role="button"
+            >
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>

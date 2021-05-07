@@ -25,11 +25,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'inicio', component: HomeComponent, canActivate: [AuthGuard] },
-  {
-    path: 'drivers',
-    component: DriversComponent,
-    canActivate: [AuthGuard, AdminGuard],
-  },
+
   {
     path: 'users',
     component: UsersComponent,
@@ -37,6 +33,26 @@ const routes: Routes = [
   },
   {
     path: 'users/:id',
+    component: UserComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'admins',
+    component: UsersComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'admins/:id',
+    component: UserComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'drivers',
+    component: UsersComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'drivers/:id',
     component: UserComponent,
     canActivate: [AuthGuard, AdminGuard],
   },

@@ -69,21 +69,32 @@ export class RouteAssignComponent implements OnInit {
     console.log(this.selectedAssign);
   }
   addHorario() {
-    /**
-     * @todo Evitar duplicados
-     */
     if (
-      !this.containsObject(
-        { ...this.horario },
-        { ...this.selectedAssign.horarios }
-      )
+      this.horario.road &&
+      this.horario.day &&
+      this.horario.start_hour &&
+      this.horario.end_hour
     ) {
-      this.selectedAssign.horarios.push({ ...this.horario });
+      if (
+        !this.selectedAssign.horarios.some(
+          (horario) => horario === { ...this.horario }
+        )
+      ) {
+        this.selectedAssign.horarios.push({ ...this.horario });
+        this.horario = new Horario();
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          text: 'La ruta ya fue agregada',
+          timer: 500,
+          showConfirmButton: false,
+        });
+      }
     } else {
       Swal.fire({
         icon: 'warning',
-        text: 'La ruta ya fue agregada',
-        timer: 1000,
+        text: 'Todos los campos son obligatorios',
+        timer: 500,
         showConfirmButton: false,
       });
     }
@@ -96,5 +107,15 @@ export class RouteAssignComponent implements OnInit {
       }
     }
     return false;
+  }
+  removeHorario(index) {
+    if (this.selectedAssign.horarios.length == 1) {
+      this.selectedAssign.horarios = [];
+    } else {
+      this.selectedAssign.horarios = this.selectedAssign.horarios.splice(
+        index,
+        1
+      );
+    }
   }
 }

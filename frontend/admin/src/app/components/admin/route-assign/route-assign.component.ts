@@ -36,7 +36,7 @@ export class RouteAssignComponent implements OnInit {
 
   getDrivers() {
     this.httpClient
-      .get<Driver[]>(environment.apiUrl + '/drivers')
+      .get<Driver[]>(environment.apiUrl + '/users')
       .subscribe((data) => {
         this.drivers = (data as any).data;
         this.drivers = this.drivers.map((driver) => {

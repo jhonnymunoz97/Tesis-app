@@ -5,109 +5,8 @@
     <strong> <i class="fa fa-save"></i> Guardar </strong>
   </p>
   <hr />
-  <div class="d-flex flex-column">
-    <div class="d-flex align-items-center">
-      <div class="form-group mr-3">
-        <label for="driver_id">Conductor</label>
-        <select
-          class="form-control"
-          name="driver_id"
-          id="driver_id"
-          (change)="selectDriver($event)"
-        >
-          <option [value]="null" selected disabled>
-            Seleccione un conductor
-          </option>
-          <option *ngFor="let driver of drivers; let i = index" [value]="i">
-            {{ driver.name + " " + driver.surname }}
-          </option>
-        </select>
-        <small class="form-text text-muted pl-1">
-          Conductor a quien se asignarán las rutas
-        </small>
-      </div>
-      <div class="form-group mr-3" *ngIf="selectedAssign.driver_id">
-        <label for="start_date">Fecha de inicio</label>
-        <input
-          type="date"
-          class="form-control"
-          name="start_date"
-          id="start_date"
-          aria-describedby="startDateHelp"
-          placeholder="Fecha en la que se empieza a asignar la ruta"
-          [(ngModel)]="selectedAssign.start_date"
-        />
-        <small id="startDateHelp" class="form-text text-muted pl-1">
-          Fecha en la que inicia la asignación
-        </small>
-      </div>
-      <div class="form-group mr-3" *ngIf="selectedAssign.driver_id">
-        <label for="start_date">Fecha final</label>
-        <input
-          type="date"
-          class="form-control"
-          name="end_date"
-          id="end_date"
-          aria-describedby="endDateHelp"
-          placeholder="Fecha en la que se empieza a asignar la ruta"
-          [(ngModel)]="selectedAssign.end_date"
-        />
-        <small id="endDateHelp" class="form-text text-muted pl-1">
-          Fecha en la que termina la asignación
-        </small>
-      </div>
-      <button
-        type="button"
-        class="btn btn-success"
-        *ngIf="selectedAssign.driver_id"
-        (click)="saveAssign()"
-      >
-        <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Guardar
-      </button>
-    </div>
-    <div
-      class="align-items-center"
-      [ngClass]="selectedAssign.driver_id == null ? 'd-none' : 'd-flex'"
-    >
-      <div class="form-group mr-3">
-        <label for="ruta_id">Ruta</label>
-        <select class="form-control" (change)="selectRuta($event)">
-          <option [value]="null" selected disabled>Seleccione una ruta</option>
-          <option *ngFor="let ruta of rutas; let i = index" [value]="i">
-            {{ ruta.name }}
-          </option>
-        </select>
-        <small class="form-text text-muted pl-1">
-          Seleccione la ruta que desea agregar
-        </small>
-      </div>
-      <div class="form-group mr-3">
-        <label for="day">Día</label>
-        <select
-          class="form-control"
-          name="day"
-          id="day"
-          [(ngModel)]="horario.day"
-        >
-          <option [value]="null" selected disabled>Seleccione un día</option>
-          <option>Lunes</option>
-          <option>Martes</option>
-          <option>Miércoles</option>
-          <option>Jueves</option>
-          <option>Jueves</option>
-          <option>Viernes</option>
-          <option>Sábado</option>
-          <option>Domingo</option>
-        </select>
-        <small class="form-text text-muted pl-1">
-          Seleccione el día para agregar
-        </small>
-      </div>
-      <div class="form-group mr-3">
-        <label for="start_hour">Horario</label>
-        <div class="d-flex">
   <div class="d-flex flex-row">
-    <div class="d-flex flex-column ">
+    <div class="d-flex flex-column">
       <div class="d-flex align-items-center">
         <div class="form-group mr-3">
           <label for="driver_id">Conductor</label>
@@ -233,11 +132,7 @@
             Ingresa la hora de entrada y salida
           </small>
         </div>
-        <button
-          type="button"
-          class="btn btn-warning h-25"
-          (click)="addHorario()"
-        >
+        <button type="button" class="btn btn-warning" (click)="addHorario()">
           <i class="fa fa-plus"></i>&nbsp;Agregar
         </button>
       </div>
@@ -256,7 +151,10 @@
         </button>
       </div>
     </div>
-    <div class="container-fluid mw-20 text-center" *ngIf="selectedAssign.driver">
+    <div
+      class="container-fluid mw-20 text-center"
+      *ngIf="selectedAssign.driver"
+    >
       <img [src]="selectedAssign.driver.profilePhoto" class="img-thumbnail" />
     </div>
   </div>

@@ -14,6 +14,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./route-assign.component.scss'],
 })
 export class RouteAssignComponent implements OnInit {
+  lat = -1.0168547484192896;
+  lng = -80.45206653126932;
+  zoom = 14;
   assigns: Assign[] = [];
   drivers: Driver[] = [];
   rutas: Ruta[] = [];

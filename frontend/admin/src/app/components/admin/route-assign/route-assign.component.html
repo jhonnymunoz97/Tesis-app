@@ -162,4 +162,15 @@
     Asegúrese de que los horarios no se repitan
   </p>
   <hr />
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <agm-map-type-control></agm-map-type-control>
+    <agm-direction
+      *ngIf="selectedRuta"
+      [origin]="selectedRuta.origin"
+      [destination]="selectedRuta.destination"
+      [waypoints]="selectedRuta.waypoints"
+      [renderOptions]="renderOptions"
+    >
+    </agm-direction>
+  </agm-map>
 </div>

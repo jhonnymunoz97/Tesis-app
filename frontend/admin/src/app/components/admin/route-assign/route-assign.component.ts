@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Assign, Horario } from 'src/app/models/assign';
 import { Driver } from 'src/app/models/driver';
 import { Ruta } from 'src/app/models/ruta';
+import { AssignsService } from 'src/app/services/asignacion.service';
 import { RutasService } from 'src/app/services/rutas.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
@@ -27,6 +28,7 @@ export class RouteAssignComponent implements OnInit {
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
   dtTrigger: Subject<any> = new Subject<any>();
+  isEditOrAdd: boolean;
   constructor(
     private httpClient: HttpClient,
     private rutasService: RutasService
@@ -35,6 +37,18 @@ export class RouteAssignComponent implements OnInit {
   ngOnInit(): void {
     this.getDrivers();
     this.getRutas();
+    this.getAssigns();
+  }
+
+  getAssigns() {
+    this.httpClient
+      .get<Assign[]>(environment.apiUrl + '/assigns')
+      .subscribe((data) => {
+        this.assigns = (data as any).data;
+        console.log(this.assigns);
+        // Calling the DT trigger to manually render the table
+        this.dtTrigger.next();
+      });
   }
 
   getDrivers() {
@@ -69,7 +83,37 @@ export class RouteAssignComponent implements OnInit {
     });
   }
   saveAssign() {
-    console.log(this.selectedAssign);
+    if (
+      this.selectedAssign.horarios.length == 0 ||
+      !this.selectedAssign.driver_id ||
+      !this.selectedAssign.start_date ||
+      !this.selectedAssign.end_date
+    ) {
+      Swal.fire({
+        icon: 'warning',
+        text: 'Todos los campos son obligatorios',
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    } else {
+      this.isEditOrAdd = false;
+      if (this.selectedAssign.id) {
+        this.httpClient
+          .put<Assign>(
+            environment.apiUrl + '/assigns' + '/' + this.selectedAssign.id,
+            this.selectedAssign
+          )
+          .subscribe((data) => {
+            window.location.reload();
+          });
+      } else {
+        this.httpClient
+          .post<Driver>(environment.apiUrl + '/assigns', this.selectedAssign)
+          .subscribe((data) => {
+            window.location.reload();
+          });
+      }
+    }
   }
   addHorario() {
     if (

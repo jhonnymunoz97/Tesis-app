@@ -39,10 +39,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-
-
-
         $fields = $request->all();
         $fields['password'] = Hash::make($request->dni);
         $user = User::create(

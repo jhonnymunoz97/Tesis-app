@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\MarkerController;
@@ -52,5 +53,6 @@ Route::group([
     Route::apiResources([
         'users' => UserController::class,
         'markers' => MarkerController::class,
+        'assigns' => AssignController::class,
     ]);
 });

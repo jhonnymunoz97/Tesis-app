@@ -37,7 +37,14 @@ class AssignController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->successResponse(Assign::create($request->all()));
+        $fields = $request->all();
+        $assign = Assign::create(
+            $fields
+        );
+        return $this->successResponse(
+            $assign,
+            'Usuario creado con éxito'
+        );
     }
 
     /**
@@ -46,9 +53,9 @@ class AssignController extends Controller
      * @param  \App\Models\Assign  $assign
      * @return \Illuminate\Http\Response
      */
-    public function show(Assign $assign)
+    public function show($assign)
     {
-        //
+        return $this->successResponse(Assign::findOrFail($assign));
     }
 
     /**
@@ -69,9 +76,12 @@ class AssignController extends Controller
      * @param  \App\Models\Assign  $assign
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Assign $assign)
+    public function update(Request $request, $assign)
     {
-        //
+        $assign = Assign::findOrFail($assign);
+        $assign->update($request->all());
+        $assign->save();
+        return $this->successResponse($assign, 'Cambios realizados con éxito');
     }
 
     /**

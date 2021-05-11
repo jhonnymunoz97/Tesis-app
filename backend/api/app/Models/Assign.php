@@ -18,4 +18,8 @@ class Assign extends Model
         'start_date',
         'end_date'
     ];
+
+    protected $casts = [
+        'horarios' => 'json'
+    ];
 }

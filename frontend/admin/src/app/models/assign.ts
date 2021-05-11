@@ -9,6 +9,7 @@ export class Horario {
 }
 
 export class Assign {
+  id?: number;
   driver_id: number = null;
   driver?: Driver;
   horarios: Horario[] = [];

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Assign extends Model
@@ -22,4 +23,9 @@ class Assign extends Model
     protected $casts = [
         'horarios' => 'json'
     ];
+
+    public function driver()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

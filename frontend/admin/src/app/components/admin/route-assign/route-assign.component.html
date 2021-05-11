@@ -162,7 +162,54 @@
     Asegúrese de que los horarios no se repitan
   </p>
   <hr />
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" *ngIf="selectedRuta">
+  <table
+    datatable
+    [dtOptions]="dtOptions"
+    [dtTrigger]="dtTrigger"
+    class="row-border hover text-center"
+  >
+    <thead>
+      <tr>
+        <th>Conductor</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha Final</th>
+        <th>Horarios</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let assign of assigns">
+        <tr>
+          <td>{{ assign.driver.name }}&nbsp;{{ assign.driver.surname }}</td>
+          <td>
+            {{ assign.start_date }}
+          </td>
+          <td>
+            {{ assign.end_date }}
+          </td>
+          <td>
+            <div class="badge-group" role="group" aria-label="Horarios">
+              <button
+                type="button"
+                class="badge badge-primary"
+                *ngFor="let horario of assign.horarios"
+              >
+                {{ horario.road.name }}.&nbsp;{{ horario.day }}:&nbsp;
+                {{ horario.start_hour }}&nbsp;-&nbsp;
+                {{ horario.end_hour }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <hr />
+  <agm-map
+    [latitude]="lat"
+    [longitude]="lng"
+    [zoom]="zoom"
+    *ngIf="selectedRuta"
+  >
     <agm-map-type-control></agm-map-type-control>
     <agm-direction
       *ngIf="selectedRuta"

@@ -47,7 +47,6 @@ export class RouteAssignComponent implements OnInit {
         this.assigns = (data as any).data;
         console.log(this.assigns);
         // Calling the DT trigger to manually render the table
-        this.dtTrigger.next();
       });
   }
 

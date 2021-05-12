@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { MyDTOptions } from 'src/app/helpers/MyDtOptions';
 import { Assign, Horario } from 'src/app/models/assign';
 import { Driver } from 'src/app/models/driver';
 import { Ruta } from 'src/app/models/ruta';
@@ -28,16 +29,24 @@ export class RouteAssignComponent implements OnInit {
   // We use this trigger because fetching the list of persons can be quite long,
   // thus we ensure the data is fetched before rendering
   dtTrigger: Subject<any> = new Subject<any>();
-  isEditOrAdd: boolean;
+  isEdit: boolean = false;
+  isAdd: boolean = false;
   constructor(
     private httpClient: HttpClient,
     private rutasService: RutasService
   ) {}
 
   ngOnInit(): void {
+    this.dtOptions = MyDTOptions;
     this.getDrivers();
     this.getRutas();
     this.getAssigns();
+  }
+
+  newAssign() {
+    this.isAdd = true;
+    this.isEdit = false;
+    this.selectedAssign = new Assign();
   }
 
   getAssigns() {
@@ -47,6 +56,7 @@ export class RouteAssignComponent implements OnInit {
         this.assigns = (data as any).data;
         console.log(this.assigns);
         // Calling the DT trigger to manually render the table
+        this.dtTrigger.next();
       });
   }
 
@@ -61,20 +71,20 @@ export class RouteAssignComponent implements OnInit {
           }
           return driver;
         });
-        // Calling the DT trigger to manually render the table
-        this.dtTrigger.next();
       });
   }
   selectDriver(driver) {
-    this.selectedAssign.driver_id = this.drivers[
-      driver.target.value as number
-    ].id;
+    this.selectedAssign.driver_id =
+      this.drivers[driver.target.value as number].id;
     this.selectedAssign.driver = this.drivers[driver.target.value as number];
   }
 
   selectRuta(ruta) {
-    this.selectedRuta = this.rutas[ruta.target.value as number];
-    this.horario.road = this.selectedRuta;
+    this.horario.road = this.selectedRuta =
+      this.rutas[ruta.target.value as number];
+  }
+  showRuta(ruta: Ruta) {
+    this.horario.road = this.selectedRuta = ruta;
   }
   getRutas() {
     this.rutasService.getRutas().subscribe((rutas: Ruta[]) => {
@@ -95,7 +105,8 @@ export class RouteAssignComponent implements OnInit {
         showConfirmButton: false,
       });
     } else {
-      this.isEditOrAdd = false;
+      this.isEdit = false;
+      this.isAdd = false;
       if (this.selectedAssign.id) {
         this.httpClient
           .put<Assign>(
@@ -103,13 +114,25 @@ export class RouteAssignComponent implements OnInit {
             this.selectedAssign
           )
           .subscribe((data) => {
-            window.location.reload();
+            Swal.fire(
+              'Cambios Guardados!',
+              'La operación fue exitosa!',
+              'success'
+            ).then(() => {
+              window.location.reload();
+            });
           });
       } else {
         this.httpClient
           .post<Driver>(environment.apiUrl + '/assigns', this.selectedAssign)
           .subscribe((data) => {
-            window.location.reload();
+            Swal.fire(
+              'Cambios Guardados!',
+              'La operación fue exitosa!',
+              'success'
+            ).then(() => {
+              window.location.reload();
+            });
           });
       }
     }
@@ -163,5 +186,12 @@ export class RouteAssignComponent implements OnInit {
         1
       );
     }
+  }
+
+  selectAssign(i) {
+    this.isEdit = true;
+    this.isAdd = false;
+    this.selectedAssign = this.assigns[i];
+    this.selectedAssign.driver_id = this.assigns[i].driver_id;
   }
 }

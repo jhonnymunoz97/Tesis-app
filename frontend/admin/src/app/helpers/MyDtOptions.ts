@@ -1,4 +1,5 @@
 export const MyDTOptions = {
+  destroy:true,
   // Declare the use of the extension in the dom parameter
   dom: 'Bfrtip',
   // Configure the buttons

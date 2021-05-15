@@ -166,6 +166,13 @@
           >
             <i class="fa fa-edit"></i>
           </button>
+          <button
+            class="badge btn btn-danger"
+            (click)="removeMarker(i)"
+            *ngIf="allowEdit"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
         </div>
         <span class="mr-1 flex-grow-1">
           {{ marker.description }}

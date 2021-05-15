@@ -5,6 +5,7 @@ import { Marker } from 'src/app/models/marker';
 import { Ruta } from 'src/app/models/ruta';
 import { MarkerService } from 'src/app/services/marker.service';
 import { RutasService } from 'src/app/services/rutas.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-markers',
@@ -48,11 +49,6 @@ export class MarkersComponent implements OnInit {
       this.markers = [];
       rutas.forEach(async (ruta: Ruta) => {
         this.colors.push(await getRandomColor());
-        if (ruta.markers && ruta.markers.length > 0) {
-          (ruta.markers as Marker[]).forEach((marker: Marker) => {
-            this.markers.push(marker);
-          });
-        }
       });
     });
   }
@@ -139,5 +135,30 @@ export class MarkersComponent implements OnInit {
     this.selectedRutaView = this.rutas[i];
     this.markers = [];
     this.markers = this.rutas[i].markers;
+  }
+
+  removeMarker(index) {
+    Swal.fire({
+      title: 'Estás seguro?',
+      text: 'Esta acción no puede deshacerse!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrar!',
+      cancelButtonText: 'Cancelar!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (this.selectedRutaView.markers.length == 1) {
+          this.selectedRutaView.markers = [];
+        } else {
+          this.selectedRutaView.markers = this.selectedRutaView.markers.splice(
+            index,
+            1
+          );
+        }
+        this.rutasService.editRuta(this.selectedRutaView);
+      }
+    });
   }
 }

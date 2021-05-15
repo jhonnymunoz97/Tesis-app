@@ -69,6 +69,9 @@ class User extends Authenticatable implements JWTSubject, CanResetPassword
     {
         return $this->hasOne(UserVerification::class);
     }
+
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
 }
-
-

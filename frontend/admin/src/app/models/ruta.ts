@@ -1,12 +1,14 @@
 import { Driver } from './driver';
+import { Marker } from './marker';
 
-export interface Ruta {
+export class Ruta {
   $key?: any;
   origin: Location;
   name: string;
   destination: Location;
   waypoints?: Location[];
   driver?: Driver;
+  markers?: Marker[];
 }
 export class Location {
   lat: number;

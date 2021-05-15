@@ -1,15 +1,38 @@
 <div class="d-flex align-content-center justify-content-end">
   <div class="flex-grow-1 mr-3">
-    <agm-map #gm [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <agm-map
+      #gm
+      [latitude]="lat"
+      [longitude]="lng"
+      [zoom]="zoom"
+      (centerChange)="onCenterChange($event)"
+    >
       <agm-map-type-control></agm-map-type-control>
       <agm-direction
         *ngIf="selectedRutaView"
         [origin]="selectedRutaView.origin"
         [destination]="selectedRutaView.destination"
         [waypoints]="selectedRutaView.waypoints"
-        [renderOptions]="renderOptions"
+        [renderOptions]="{
+          polylineOptions: {
+            strokeColor: color
+          }
+        }"
       >
       </agm-direction>
+      <ng-container *ngIf="!selectedRutaView">
+        <agm-direction
+          *ngFor="let ruta of rutas; let i = index"
+          [origin]="ruta.origin"
+          [destination]="ruta.destination"
+          [waypoints]="ruta.waypoints"
+          [renderOptions]="{
+            polylineOptions: {
+              strokeColor: colors[i]
+            }
+          }"
+        ></agm-direction>
+      </ng-container>
       <agm-marker
         *ngIf="selectedMarker"
         [visible]="isEditing || isNew"
@@ -17,6 +40,7 @@
         [longitude]="selectedMarker.lng"
         [markerDraggable]="true"
         (dragEnd)="showEvent($event)"
+        [iconURL]="'assets/img/delete.png'"
       ></agm-marker>
       <agm-marker
         *ngFor="let marker of markers"
@@ -25,6 +49,13 @@
         [longitude]="marker.lng"
         [markerDraggable]="isEditing"
         (dragEnd)="showEvent($event)"
+        [iconUrl]="{
+          url: 'assets/img/delete.png',
+          scaledSize: {
+            width: 25,
+            height: 25
+          }
+        }"
       ></agm-marker>
     </agm-map>
     <div
@@ -41,7 +72,41 @@
   </div>
   <div style="max-width: 25%">
     <h4>Puntos de recolección:</h4>
-    <div class="btn-group mr-2" role="group">
+    <p>Seleccione una ruta para manipular sus puntos de recolección</p>
+    <hr />
+    <ul class="list-group">
+      <li
+        class="list-group-item d-flex"
+        *ngFor="let ruta of rutas; let i = index"
+      >
+        <div
+          class="flex-grow-1 text-center"
+          [style.border-bottom]="'1px solid ' + colors[i]"
+        >
+          {{ ruta.name }}
+        </div>
+        <div class="btn-toolbar" role="toolbar" aria-label="Acciones de ruta">
+          <div class="btn-group mr-2" role="group">
+            <button
+              class="badge btn btn-primary"
+              (click)="showMarkersOfRuta(i)"
+            >
+              <i class="fa fa-eye"></i>&nbsp;Ver puntos
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <hr />
+    <div
+      class="btn-group mr-2"
+      role="group"
+      *ngIf="selectedRutaView"
+      style="display: inline-grid"
+    >
+      <strong>
+        {{ selectedRutaView.name }}
+      </strong>
       <button class="badge btn btn-primary" (click)="createMarker()">
         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Crear nuevo
       </button>
@@ -50,6 +115,7 @@
       <h6>
         {{ selectedMarker.title }}
       </h6>
+      <br />
       <label for="description">Nombre o Descripción:</label>
       <input
         type="text"
@@ -83,19 +149,21 @@
         </div>
       </div>
     </div>
-
-    <hr />
-
+    <hr *ngIf="selectedRutaView" />
     <ul class="list-group">
       <li
         class="list-group-item d-flex align-content-center justify-content-end"
-        *ngFor="let marker of markers"
+        *ngFor="let marker of markers; let i = index"
       >
         <div class="btn-group mr-2" role="group">
-          <button class="badge btn btn-primary" (click)="showMarker(marker)">
+          <button class="badge btn btn-primary" (click)="showMarker(i)">
             <i class="fa fa-eye"></i>
           </button>
-          <button class="badge btn btn-warning" (click)="editMarker(marker)">
+          <button
+            class="badge btn btn-warning"
+            (click)="editMarker(i)"
+            *ngIf="allowEdit"
+          >
             <i class="fa fa-edit"></i>
           </button>
         </div>

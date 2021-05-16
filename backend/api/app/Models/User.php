@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject, CanResetPassword
-{
+{ //User or Driver
     use SoftDeletes;
     use Notifiable;
     const ROLE_SUPER_USER = 'Administrador';

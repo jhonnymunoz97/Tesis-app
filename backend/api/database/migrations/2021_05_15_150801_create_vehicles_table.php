@@ -18,8 +18,8 @@ class CreateVehiclesTable extends Migration
             $table->string('vehicle_type');
             $table->string('type');
             $table->string('fuel');
-            $table->string('vin');
-            $table->string('registration_no');
+            $table->string('vin')->unique(); //Placa
+            $table->string('registration_no')->unique(); //matricula
             $table->string('brand');
             $table->string('model');
             $table->year('year');

@@ -22,8 +22,4 @@ class Vehicle extends Model
         'year'
     ];
 
-    public function propietario()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

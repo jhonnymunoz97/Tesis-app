@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
+    use ApiResponser;
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,7 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        //
+        return $this->successResponse(Vehicle::all());
     }
 
     /**

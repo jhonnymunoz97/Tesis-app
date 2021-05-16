@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('surname');
             $table->string('email');
             $table->string('password');
+            $table->string('license')->nullable();
             $table->binary('profilePhoto')->nullable();
             $table->boolean('verified')->default(false);
             $table->dateTime('last_login')->nullable();

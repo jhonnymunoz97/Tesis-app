@@ -18,7 +18,11 @@ class CreateAssignsTable extends Migration
             $table
                 ->foreignId('driver_id')
                 ->references('id')
-                ->on('drivers');
+                ->on('users');
+            $table
+                ->foreignId('vehicle_id')
+                ->references('id')
+                ->on('vehicles');
             $table->json('horarios');
             $table->date('start_date');
             $table->date('end_date')->nullable();

@@ -16,6 +16,7 @@ class Vehicle extends Model
         'vehicle_type',
         'registration_no',
         'type',
+        'vin',
         'fuel',
         'brand',
         'model',

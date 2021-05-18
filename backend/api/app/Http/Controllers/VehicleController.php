@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
+use App\Models\User;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
@@ -38,7 +39,14 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->all();
+        $vehicle = Vehicle::create(
+            $fields
+        );
+        return $this->successResponse(
+            $vehicle,
+            'Vehiculo creado con éxito'
+        );
     }
 
     /**
@@ -47,9 +55,9 @@ class VehicleController extends Controller
      * @param  \App\Models\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function show(Vehicle $vehicle)
+    public function show($id)
     {
-        //
+        return $this->successResponse(Vehicle::findOrFail($id));
     }
 
     /**
@@ -58,9 +66,9 @@ class VehicleController extends Controller
      * @param  \App\Models\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vehicle $vehicle)
+    public function edit(Vehicle $id)
     {
-        //
+       
     }
 
     /**
@@ -70,9 +78,12 @@ class VehicleController extends Controller
      * @param  \App\Models\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(Request $request, $id)
     {
-        //
+        $vehicle = Vehicle::findOrFail($id);
+        $vehicle->update($request->all());
+        $vehicle->save();
+        return $this->successResponse($vehicle, 'Vehículo actuailzado con éxito');
     }
 
     /**

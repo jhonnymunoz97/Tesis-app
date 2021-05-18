@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\MarkerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,7 @@ Route::group([
     Route::get('test', [AuthController::class, 'test'])->name('test');
     Route::apiResources([
         'users' => UserController::class,
+        'vehicles' => VehicleController::class,
         'markers' => MarkerController::class,
         'assigns' => AssignController::class,
     ]);

@@ -29,6 +29,12 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { UserComponent } from './components/admin/users/user/user.component';
 import { MarkersComponent } from './components/admin/markers/markers.component';
 import { RouteAssignComponent } from './components/admin/route-assign/route-assign.component';
+import { ReportsComponent } from './components/admin/reports/reports.component';
+import { VehiclesComponent } from './components/admin/vehicles/vehicles.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { VehicleEditComponent } from './components/admin/vehicles/vehicle-edit/vehicle-edit.component';
+
+
 
 declare var google;
 @NgModule({
@@ -49,6 +55,9 @@ declare var google;
     UserComponent,
     MarkersComponent,
     RouteAssignComponent,
+    ReportsComponent,
+    VehiclesComponent,
+    VehicleEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +73,7 @@ declare var google;
     }),
     AgmDirectionModule, // agm-direction
     FormsModule,
+    [BrowserModule, NgxPaginationModule],
   ],
   providers: [
     {

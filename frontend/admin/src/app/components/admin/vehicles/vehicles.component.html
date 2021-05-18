@@ -1,0 +1,212 @@
+<div>
+
+
+<h1>CAMIONES</h1>
+<hr/>
+
+<button
+    type="button"
+    class="btn btn-success mb-3"
+    data-toggle="modal" 
+    data-target="#myModal"
+>
+    Nuevo registro <i class="fa fa-plus" aria-hidden="true"></i>
+</button>
+
+
+  <table class="table text-center" *ngIf="verify">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Vehículo</th>
+        <th>Tipo</th>
+        <th>Combustible</th>
+        <th>Vin</th>
+        <th>Número de registro</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Año</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let car of vehicles.data | paginate: { itemsPerPage: 5, currentPage: p }"  >
+          <td>{{ car.id }}</td>
+          <td>{{ car.vehicle_type }}</td>
+          <td>{{ car.type }}</td>
+          <td>{{ car.fuel }}</td>
+          <td>{{ car.vin }}</td>
+          <td>{{ car.registration_no }}</td>
+          <td>{{ car.brand }}</td>
+          <td>{{ car.model }}</td>
+          <td>{{ car.year }}</td>
+          <td>
+            <a
+              name=""
+              id=""
+              class="btn btn-primary"
+              [routerLink]="['/vehicles', car.id]"
+              role="button"
+            >
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </a>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <pagination-controls (pageChange)="p = $event" class="paginate"></pagination-controls>
+
+</div>
+
+
+
+<div class="container">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+          <h4 class="modal-title">Registro de Camión</h4>
+        </div>
+        
+        <div class="modal-body">
+          <form class="form-inline" novalidate [formGroup]="vehicleForm" (ngSubmit)="onSubmit($event)">
+              <div class="col col-3 col-md-6 mt-2">
+                  <label for="vehicle_type">Vehículo:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="vehicle_type"
+                    formControlName="vehicle_type"
+                    id="vehicle_type"
+                    aria-describedby="surnameHelp"
+                    placeholder="Ingrese el nombre"
+                  />
+                  <div *ngIf="vehicleForm.get('vehicle_type')?.errors && vehicleForm.get('vehicle_type')?.touched">
+                    <span *ngIf="vehicleForm.get('vehicle_type')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+              <div class="col col-3 col-md-6 mt-2">
+                  <label for="type">Tipo:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="type"
+                    formControlName="type"
+                    id="type"
+                    aria-describedby="surnameHelp"
+                    placeholder="Ingrese el tipo"
+                  />
+                  <div *ngIf="vehicleForm.get('type')?.errors && vehicleForm.get('type')?.touched">
+                    <span *ngIf="vehicleForm.get('type')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+              <div class="col col-3 col-md-6 mt-4">
+                  <label for="fuel">Combustible:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="fuel"
+                    formControlName="fuel"
+                    formControlName="fuel"
+                    id="fuel"
+                    aria-describedby="surnameHelp"
+                    placeholder="Ingrese el combustible"
+                  />
+                  <div *ngIf="vehicleForm.get('fuel')?.errors && vehicleForm.get('fuel')?.touched">
+                    <span *ngIf="vehicleForm.get('fuel')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+              <div class="col col-3 col-md-6 mt-4">
+                  <label for="vin">Vin:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="vin"
+                    formControlName="vin"
+                    id="vin"
+                    aria-describedby="surnameHelp"
+                    placeholder="Ingrese el vin"
+                  />
+                  <div *ngIf="vehicleForm.get('vin')?.errors && vehicleForm.get('vin')?.touched">
+                    <span *ngIf="vehicleForm.get('vin')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+              <div class="col col-3 col-md-6 mt-4">
+                  <label for="registration_no">Número de registro:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="registration_no"
+                    formControlName="registration_no"
+                    id="registration_no"
+                    aria-describedby="surnameHelp"
+                    placeholder="Número de registro"
+                  />
+                  <div *ngIf="vehicleForm.get('registration_no')?.errors && vehicleForm.get('registration_no')?.touched">
+                    <span *ngIf="vehicleForm.get('registration_no')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+              <div class="col col-3 col-md-6 mt-4">
+                  <label for="brand">Marca:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="brand"
+                    formControlName="brand"
+                    id="brand"
+                    aria-describedby="surnameHelp"
+                    placeholder="Ingrese la marca"
+                  />
+                  <div *ngIf="vehicleForm.get('brand')?.errors && vehicleForm.get('brand')?.touched">
+                    <span *ngIf="vehicleForm.get('brand')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+              <div class="col col-3 col-md-6 mt-4">
+                  <label for="model">Modelo:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="model"
+                    formControlName="model"
+                    id="model"
+                    aria-describedby="surnameHelp"
+                    placeholder="Ingrese el modelo"
+                  />
+                  <div *ngIf="vehicleForm.get('model')?.errors && vehicleForm.get('model')?.touched">
+                    <span *ngIf="vehicleForm.get('model')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+              <div class="col col-3 col-md-6 mt-4">
+                  <label for="year">Año:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="year"
+                    formControlName="year"
+                    id="year"
+                    aria-describedby="surnameHelp"
+                    placeholder="Ingrese el año"
+                  />
+                  <div *ngIf="vehicleForm.get('year')?.errors && vehicleForm.get('year')?.touched">
+                    <span *ngIf="vehicleForm.get('year')?.hasError('required')" style="color: red;">Este campo es requerido</span>
+                  </div>
+              </div>
+
+          </form>
+
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)='onSubmit($event)' > Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

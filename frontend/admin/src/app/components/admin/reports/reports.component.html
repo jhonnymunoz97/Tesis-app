@@ -1,0 +1,22 @@
+<h1>REPORTES</h1>
+<p>Seleccione el reporte que desea generar.</p>
+<hr/>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+    </li>
+    <li class="nav-item">
+      <a (click)="activeLink('drivers')" [className]="option.drivers ? 'active nav-link selected-item' : 'nav-link' " >Conductores</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="activeLink('vehicles')"  [className]="option.vehicles ? 'active nav-link selected-item' : 'nav-link' "  >Vehículos</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="activeLink('routes')" [className]="option.routes ? 'active nav-link selected-item' : 'nav-link' ">Rutas</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="activeLink('users')" [className]="option.users ? 'active nav-link selected-item' : 'nav-link' ">Usuarios</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="activeLink('points')" [className]="option.points ? 'active nav-link selected-item' : 'nav-link' ">Puntos de Recoleccion</a>
+    </li>
+  </ul>

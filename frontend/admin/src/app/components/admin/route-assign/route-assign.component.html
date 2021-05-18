@@ -25,10 +25,35 @@
             </option>
           </select>
           <small class="form-text text-muted pl-1">
-            Conductor a quien se asignarán las rutas
+            Conductor responsable del camión
           </small>
         </div>
-        <div class="form-group mr-3" *ngIf="selectedAssign.driver_id">
+
+        <div class="form-group mr-3">
+          <label for="driver_id">Camión</label>
+          <select
+            class="form-control"
+            name="vehicle_id"
+            id="vehicle_id"
+            [(ngModel)]="selectedAssign.vehicle_id"
+          >
+            <option [value]="null" selected disabled>
+              Seleccione un camión
+            </option>
+            <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+              {{  vehicle.registration_no + " - " + vehicle.vehicle_type }}
+            </option>
+          </select>
+          <small class="form-text text-muted pl-1">
+            Camión al que se le asginará la ruta 
+          </small>
+        </div>
+        <br>
+
+
+
+
+        <div class="form-group mr-3" *ngIf="selectedAssign.driver_id && selectedAssign.vehicle_id">
           <label for="start_date">Fecha de inicio</label>
           <input
             type="date"
@@ -43,7 +68,7 @@
             Fecha en la que inicia la asignación
           </small>
         </div>
-        <div class="form-group mr-3" *ngIf="selectedAssign.driver_id">
+        <div class="form-group mr-3" *ngIf="selectedAssign.driver_id && selectedAssign.vehicle_id">
           <label for="start_date">Fecha final</label>
           <input
             type="date"
@@ -58,18 +83,18 @@
             Fecha en la que termina la asignación
           </small>
         </div>
-        <button
+        <!-- <button
           type="button"
           class="btn btn-success"
           *ngIf="selectedAssign.driver_id"
           (click)="saveAssign()"
         >
           <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Guardar
-        </button>
+        </button> -->
       </div>
       <div
         class="align-items-center"
-        [ngClass]="selectedAssign.driver_id == null ? 'd-none' : 'd-flex'"
+        [ngClass]="selectedAssign.driver_id == null || selectedAssign.vehicle_id == null? 'd-none' : 'd-flex'"
       >
         <div class="form-group mr-3">
           <label for="ruta_id">Ruta</label>
@@ -136,8 +161,16 @@
         <button type="button" class="btn btn-warning" (click)="addHorario()">
           <i class="fa fa-plus"></i>&nbsp;Agregar
         </button>
+        <button
+          type="button"
+          class="btn btn-success ml-4"
+          *ngIf="selectedAssign.driver_id"
+          (click)="saveAssign()"
+        >
+          <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Guardar
+        </button>
       </div>
-      <p *ngIf="selectedAssign.driver_id">
+      <p *ngIf="selectedAssign.driver_id && selectedAssign.vehicle_id">
         Puede hacer click en uno de estos horarios para visualizar la ruta
         registrada.
       </p>
@@ -167,7 +200,7 @@
       <img [src]="selectedAssign.driver.profilePhoto" class="img-thumbnail" />
     </div>
   </div>
-  <p *ngIf="selectedAssign.driver_id">
+  <p *ngIf="selectedAssign.driver_id && selectedAssign.vehicle_id">
     Asegúrese de que los horarios no se repitan.
   </p>
   <hr />

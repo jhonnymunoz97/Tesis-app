@@ -5,6 +5,7 @@ import { MyDTOptions } from 'src/app/helpers/MyDtOptions';
 import { Assign, Horario } from 'src/app/models/assign';
 import { Driver } from 'src/app/models/driver';
 import { Ruta } from 'src/app/models/ruta';
+import { Vehicles } from 'src/app/models/vehicles';
 import { AssignsService } from 'src/app/services/asignacion.service';
 import { RutasService } from 'src/app/services/rutas.service';
 import { environment } from 'src/environments/environment';
@@ -21,6 +22,9 @@ export class RouteAssignComponent implements OnInit {
   zoom = 14;
   assigns: Assign[] = [];
   drivers: Driver[] = [];
+
+  vehicles: Vehicles
+
   rutas: Ruta[] = [];
   selectedAssign: Assign = new Assign();
   selectedRuta: Ruta = null;
@@ -39,11 +43,13 @@ export class RouteAssignComponent implements OnInit {
   ngOnInit(): void {
     this.dtOptions = MyDTOptions;
     this.getDrivers();
+    this.getVehicles();
     this.getRutas();
     this.getAssigns();
   }
 
   newAssign() {
+    this.getVehicles();
     this.isAdd = true;
     this.isEdit = false;
     this.selectedAssign = new Assign();
@@ -64,20 +70,40 @@ export class RouteAssignComponent implements OnInit {
     this.httpClient
       .get<Driver[]>(environment.apiUrl + '/users')
       .subscribe((data) => {
-        this.drivers = (data as any).data;
-        this.drivers = this.drivers.map((driver) => {
+        //this.drivers = (data as any).data;
+        /* this.drivers = this.drivers.map((driver) => {
           if (!driver.profilePhoto) {
             driver.profilePhoto = 'https://i.pravatar.cc/1000';
           }
           return driver;
-        });
+        }); */
+        this.drivers = ((data as any).data as Driver[]).filter(driver =>{
+          if (!driver.profilePhoto) {
+            driver.profilePhoto = 'https://i.pravatar.cc/1000';
+          }
+          if (driver.role == 'Conductor') return true
+        })
+        console.log(this.drivers)
+
       });
   }
-  selectDriver(driver) {
+
+  getVehicles() {
+    this.httpClient
+      .get<Vehicles[]>(environment.apiUrl + '/vehicles')
+      .subscribe((data) => {
+        this.vehicles  = <Vehicles>(data as any).data;
+      });
+      console.log(this.vehicles)
+  }
+
+
+
+  /* selectDriver(driver) {
     this.selectedAssign.driver_id =
       this.drivers[driver.target.value as number].id;
     this.selectedAssign.driver = this.drivers[driver.target.value as number];
-  }
+  } */
 
   selectRuta(ruta) {
     this.horario.road = this.selectedRuta =
@@ -95,6 +121,7 @@ export class RouteAssignComponent implements OnInit {
     if (
       this.selectedAssign.horarios.length == 0 ||
       !this.selectedAssign.driver_id ||
+      !this.selectedAssign.vehicle_id ||
       !this.selectedAssign.start_date ||
       !this.selectedAssign.end_date
     ) {

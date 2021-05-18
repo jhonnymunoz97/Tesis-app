@@ -5,7 +5,7 @@
 export const environment = {
   appName: 'ITSUP',
   appEmail: 'admin@sistema.test',
-  apiUrl: 'http://integrated.test',
+  apiUrl: 'http://127.0.0.1:8000',
   production: false,
   firebaseConfig: {
     apiKey: 'AIzaSyCpClIhs6vPaXv-rpemGoIq--fxllbYteI',

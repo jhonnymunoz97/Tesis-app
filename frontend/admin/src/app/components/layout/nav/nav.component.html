@@ -86,6 +86,14 @@
           </li>
 
           <li routerLinkActive="active">
+            <a [routerLink]="['/vehicles']" routerLinkActive="active">
+              <i class="fad fa-truck-moving"></i>
+              <span>Camiones</span>
+            </a>
+          </li>
+
+
+          <li routerLinkActive="active">
             <a [routerLink]="['/markers']" routerLinkActive="active">
               <i class="fa fa-map-marker"></i>
               <span>Puntos de Recolección</span>
@@ -149,6 +157,13 @@
                 </li>
               </ul>
             </div>
+          </li>
+          <li routerLinkActive="active">
+            <a [routerLink]="['/reports']" routerLinkActive="active">
+              <!-- <i class="fa fa-location-arrow" ></i> -->
+              <i class="fad fa-file-chart-line" aria-hidden="true"></i>
+              <span>Reportes</span>
+            </a>
           </li>
         </ng-container>
         <ng-template #noSuperUser> </ng-template>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { repeat } from 'rxjs/operators';
 import { Location, Ruta } from 'src/app/models/ruta';
 import { DriverService } from 'src/app/services/driver.service';
 import { RutasService } from 'src/app/services/rutas.service';
@@ -36,6 +37,7 @@ export class RoutesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRutas();
+    
   }
 
   getRutas() {
@@ -129,12 +131,12 @@ export class RoutesComponent implements OnInit {
     }
   }
   nuevaRuta() {
-    this.isNew = true;
     this.showRuta({
       destination: { lat: -1.0587918154251523, lng: -80.46483502069046 },
       origin: { lat: -1.0446517157613564, lng: -80.47741767150812 },
       name: 'Ruta ',
     });
+    this.isNew = true;
   }
 
   deleteRuta(ruta: Ruta) {

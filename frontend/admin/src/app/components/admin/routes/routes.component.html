@@ -67,7 +67,7 @@
           <span> Lng:&nbsp;{{ selectedRutaView.destination.lng }} </span>
         </li>
       </ul>
-      <div class="row" *ngIf="isEditing || isNew">
+      <div class="row" *ngIf="isNew || isEditing">
         <div class="col-12 text-center">
           <a class="btn btn-success btn-sm" (click)="saveRuta()" role="button">
             Guardar&nbsp;<i class="fa fa-save"></i>

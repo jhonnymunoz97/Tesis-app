@@ -16,6 +16,9 @@ import { User } from './models/user';
 import { UserComponent } from './components/admin/users/user/user.component';
 import { MarkersComponent } from './components/admin/markers/markers.component';
 import { RouteAssignComponent } from './components/admin/route-assign/route-assign.component';
+import { ReportsComponent } from './components/admin/reports/reports.component';
+import { VehiclesComponent } from './components/admin/vehicles/vehicles.component';
+import { VehicleEditComponent } from './components/admin/vehicles/vehicle-edit/vehicle-edit.component';
 
 const routes: Routes = [
   {
@@ -61,6 +64,18 @@ const routes: Routes = [
     component: DriversLiveComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
+
+  {
+    path: 'vehicles',
+    component: VehiclesComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+  {
+    path: 'vehicles/:id',
+    component: VehicleEditComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+
   {
     path: 'monitoreo',
     component: MonitoreoComponent,
@@ -85,6 +100,12 @@ const routes: Routes = [
   {
     path: 'markers',
     component: MarkersComponent,
+    canActivate: [AuthGuard, AdminGuard],
+  },
+
+  {
+    path: 'reports',
+    component: ReportsComponent,
     canActivate: [AuthGuard, AdminGuard],
   },
 

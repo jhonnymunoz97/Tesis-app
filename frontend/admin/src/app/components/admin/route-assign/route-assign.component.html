@@ -231,7 +231,7 @@
       <ng-container *ngFor="let assign of assigns; let i = index">
         <tr>
           <td>{{ assign.driver.name }}&nbsp;{{ assign.driver.surname }}</td>
-          <td>{{  vehicle.brand + " " +vehicle.model + " " + vehicle.year+ " - " +vehicle.registration_no }}</td>
+          <td>{{  assign.vehicle.brand + " " +assign.vehicle.model + " " + assign.vehicle.year+ " - " +assign.vehicle.registration_no }}</td>
           <td>
             {{ assign.start_date }}
           </td>

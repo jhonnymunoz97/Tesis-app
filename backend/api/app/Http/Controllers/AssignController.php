@@ -16,7 +16,7 @@ class AssignController extends Controller
      */
     public function index()
     {
-        return $this->successResponse(Assign::with(['driver'])->get());
+        return $this->successResponse(Assign::with(['driver','vehicle'])->get());
     }
 
     /**

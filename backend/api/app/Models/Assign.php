@@ -29,4 +29,9 @@ class Assign extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+     public function vehicle(){
+        return $this->belongsTo(Vehicle::class);
+    }
+
 }

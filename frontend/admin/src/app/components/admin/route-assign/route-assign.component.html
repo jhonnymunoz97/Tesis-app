@@ -220,6 +220,7 @@
     <thead>
       <tr>
         <th>Conductor</th>
+        <th>Vehículo</th>
         <th>Fecha de Inicio</th>
         <th>Fecha Final</th>
         <th>Horarios</th>
@@ -230,6 +231,7 @@
       <ng-container *ngFor="let assign of assigns; let i = index">
         <tr>
           <td>{{ assign.driver.name }}&nbsp;{{ assign.driver.surname }}</td>
+          <td>{{  assign.vehicle.brand + " " +assign.vehicle.model + " " + assign.vehicle.year+ " - " +assign.vehicle.registration_no }}</td>
           <td>
             {{ assign.start_date }}
           </td>

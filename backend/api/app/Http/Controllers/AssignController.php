@@ -16,7 +16,7 @@ class AssignController extends Controller
      */
     public function index()
     {
-        return $this->successResponse(Assign::with(['driver'])->get());
+        return $this->successResponse(Assign::with(['driver','vehicle'])->get());
     }
 
     /**
@@ -55,7 +55,7 @@ class AssignController extends Controller
      */
     public function show($assign)
     {
-        return $this->successResponse(Assign::findOrFail($assign));
+        return $this->successResponse(Assign::with('vehicle')->findOrFail($assign));
     }
 
     /**

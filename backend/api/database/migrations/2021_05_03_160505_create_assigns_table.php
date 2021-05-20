@@ -24,8 +24,8 @@ class CreateAssignsTable extends Migration
                 ->references('id')
                 ->on('vehicles');
             $table->json('horarios');
-            $table->date('start_date');
-            $table->date('end_date')->nullable();
+            /* $table->date('start_date');
+            $table->date('end_date')->nullable(); */
             $table->timestamps();
             $table->softDeletes();
         });

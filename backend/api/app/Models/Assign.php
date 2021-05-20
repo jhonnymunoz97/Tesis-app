@@ -15,10 +15,9 @@ class Assign extends Model
     protected $fillable = [
         'driver_id',
         'vehicle_id',
-        /* 'road_id', */
         'horarios',
-        'start_date',
-        'end_date'
+        /* 'start_date',
+        'end_date' */
     ];
 
     protected $casts = [

@@ -2,3 +2,23 @@ agm-map {
   width: 100%;
   height: 90vh;
 }
+
+.direction{
+  flex-direction: column;
+  margin:auto;
+  border-bottom:none;
+}
+
+.direction-r{
+  flex-direction: row;
+}
+
+.txt{
+  width: 100px;
+}
+
+.no-border{
+  border-bottom:none;
+ 
+}
+

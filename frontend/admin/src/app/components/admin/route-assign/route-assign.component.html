@@ -16,6 +16,8 @@
             name="driver_id"
             id="driver_id"
             [(ngModel)]="selectedAssign.driver_id"
+            [disabled]="control"
+            (click)="disabled()"
           >
             <option [value]="null" selected disabled>
               Seleccione un conductor
@@ -36,6 +38,9 @@
             name="vehicle_id"
             id="vehicle_id"
             [(ngModel)]="selectedAssign.vehicle_id"
+            [disabled]="control"
+            (click)="disabled()"
+            
           >
             <option [value]="null" selected disabled>
               Seleccione un camión
@@ -50,47 +55,6 @@
         </div>
         <br>
 
-
-
-
-        <div class="form-group mr-3" *ngIf="selectedAssign.driver_id && selectedAssign.vehicle_id">
-          <label for="start_date">Fecha de inicio</label>
-          <input
-            type="date"
-            class="form-control"
-            name="start_date"
-            id="start_date"
-            aria-describedby="startDateHelp"
-            placeholder="Fecha en la que se empieza a asignar la ruta"
-            [(ngModel)]="selectedAssign.start_date"
-          />
-          <small id="startDateHelp" class="form-text text-muted pl-1">
-            Fecha en la que inicia la asignación
-          </small>
-        </div>
-        <div class="form-group mr-3" *ngIf="selectedAssign.driver_id && selectedAssign.vehicle_id">
-          <label for="start_date">Fecha final</label>
-          <input
-            type="date"
-            class="form-control"
-            name="end_date"
-            id="end_date"
-            aria-describedby="endDateHelp"
-            placeholder="Fecha en la que se empieza a asignar la ruta"
-            [(ngModel)]="selectedAssign.end_date"
-          />
-          <small id="endDateHelp" class="form-text text-muted pl-1">
-            Fecha en la que termina la asignación
-          </small>
-        </div>
-        <!-- <button
-          type="button"
-          class="btn btn-success"
-          *ngIf="selectedAssign.driver_id"
-          (click)="saveAssign()"
-        >
-          <i class="fa fa-save" aria-hidden="true"></i>&nbsp;Guardar
-        </button> -->
       </div>
       <div
         class="align-items-center"
@@ -122,7 +86,6 @@
             <option>Lunes</option>
             <option>Martes</option>
             <option>Miércoles</option>
-            <option>Jueves</option>
             <option>Jueves</option>
             <option>Viernes</option>
             <option>Sábado</option>
@@ -176,7 +139,7 @@
       </p>
       <div class="btn-group block d-block" role="group">
         <ng-container
-          *ngFor="let horario of selectedAssign.horarios; let i = index"
+          *ngFor="let horario of selectedAssign.horarios; let a = index"
         >
           <button
             class="badge btn-primary badge badge-primary"
@@ -186,7 +149,7 @@
             {{ horario.start_hour }}&nbsp;-&nbsp;
             {{ horario.end_hour }}
           </button>
-          <button class="badge btn-danger" (click)="removeHorario(i)">
+          <button class="badge btn-danger" (click)="removeHorario(a)">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </button>
           <br />
@@ -221,8 +184,6 @@
       <tr>
         <th>Conductor</th>
         <th>Vehículo</th>
-        <th>Fecha de Inicio</th>
-        <th>Fecha Final</th>
         <th>Horarios</th>
         <th>Detalle</th>
       </tr>
@@ -231,13 +192,7 @@
       <ng-container *ngFor="let assign of assigns; let i = index">
         <tr>
           <td>{{ assign.driver.name }}&nbsp;{{ assign.driver.surname }}</td>
-          <td>{{  assign.vehicle.brand + " " +assign.vehicle.model + " " + assign.vehicle.year+ " - " +assign.vehicle.registration_no }}</td>
-          <td>
-            {{ assign.start_date }}
-          </td>
-          <td>
-            {{ assign.end_date }}
-          </td>
+          <td>{{  assign.vehicle.brand + " " +assign.vehicle.model + " " + assign.vehicle.year+ " - " +assign.vehicle.registration_no }}</td> 
           <td>
             <span
               class="badge badge-warning mr-1 cursor-pointer"
@@ -252,6 +207,7 @@
               type="button"
               class="btn btn-primary"
               (click)="selectAssign(i)"
+              (click)="disabled()"
             >
               <i class="fa fa-eye" aria-hidden="true"></i>
             </button>

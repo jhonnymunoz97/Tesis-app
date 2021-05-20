@@ -6,7 +6,6 @@ import { Image } from 'src/app/models/image';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -15,6 +14,7 @@ import { filter } from 'rxjs/operators';
 export class UserComponent implements OnInit {
   title: string = 'Usuarios';
   roleShow: string = 'user';
+
 
   isEditOrAdd: boolean = false;
   user: User | Driver;
@@ -49,6 +49,11 @@ export class UserComponent implements OnInit {
 
   saveUser() {
     this.isEditOrAdd = false;
+    
+    let url:string
+    if(this.user.role === 'Administrador') url = 'admins'
+    else if(this.user.role === 'Conductor') url = 'drivers'
+    else if(this.user.role === 'Usuario') url = 'users'
 
     if (this.user.id) {
       this.httpClient
@@ -61,7 +66,7 @@ export class UserComponent implements OnInit {
           if (user.id == this.authService.currentUserValue.id) {
             this.authService.logout();
           }
-          this.router.navigate(['/users']);
+          this.router.navigate(['/' + url ]);
         });
     } else {
       this.httpClient
@@ -71,7 +76,7 @@ export class UserComponent implements OnInit {
           if (user.id == this.authService.currentUserValue.id) {
             this.authService.logout();
           }
-          this.router.navigate(['/users']);
+          this.router.navigate(['/' + url]);
         });
     }
   }
@@ -124,5 +129,10 @@ export class UserComponent implements OnInit {
 
   editUser() {
     this.isEditOrAdd = true;
+  }
+
+  errors(){
+    
+
   }
 }

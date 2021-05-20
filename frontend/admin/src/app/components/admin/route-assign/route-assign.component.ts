@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { type } from 'jquery';
 import { Subject } from 'rxjs';
 import { MyDTOptions } from 'src/app/helpers/MyDtOptions';
 import { Assign, Horario } from 'src/app/models/assign';
@@ -22,6 +23,8 @@ export class RouteAssignComponent implements OnInit {
   zoom = 14;
   assigns: Assign[] = [];
   drivers: Driver[] = [];
+  
+  control: boolean = false
 
   vehicles: Vehicles
 
@@ -53,6 +56,7 @@ export class RouteAssignComponent implements OnInit {
     this.isAdd = true;
     this.isEdit = false;
     this.selectedAssign = new Assign();
+    this.control = false
   }
 
   getAssigns() {
@@ -60,8 +64,6 @@ export class RouteAssignComponent implements OnInit {
       .get<Assign[]>(environment.apiUrl + '/assigns')
       .subscribe((data) => {
         this.assigns = (data as any).data;
-        console.log(this.assigns);
-        // Calling the DT trigger to manually render the table
         this.dtTrigger.next();
       });
   }
@@ -70,21 +72,12 @@ export class RouteAssignComponent implements OnInit {
     this.httpClient
       .get<Driver[]>(environment.apiUrl + '/users')
       .subscribe((data) => {
-        //this.drivers = (data as any).data;
-        /* this.drivers = this.drivers.map((driver) => {
-          if (!driver.profilePhoto) {
-            driver.profilePhoto = 'https://i.pravatar.cc/1000';
-          }
-          return driver;
-        }); */
         this.drivers = ((data as any).data as Driver[]).filter(driver =>{
           if (!driver.profilePhoto) {
             driver.profilePhoto = 'https://i.pravatar.cc/1000';
           }
           if (driver.role == 'Conductor') return true
         })
-        console.log(this.drivers)
-
       });
   }
 
@@ -94,16 +87,7 @@ export class RouteAssignComponent implements OnInit {
       .subscribe((data) => {
         this.vehicles  = <Vehicles>(data as any).data;
       });
-      console.log(this.vehicles)
   }
-
-
-
-  /* selectDriver(driver) {
-    this.selectedAssign.driver_id =
-      this.drivers[driver.target.value as number].id;
-    this.selectedAssign.driver = this.drivers[driver.target.value as number];
-  } */
 
   selectRuta(ruta) {
     this.horario.road = this.selectedRuta =
@@ -117,13 +101,26 @@ export class RouteAssignComponent implements OnInit {
       this.rutas = rutas;
     });
   }
+
+ find():number{
+    let index: number = 0
+    let flag: boolean = false
+    let find = this.assigns.filter(assign =>{
+      if(assign.driver_id == this.selectedAssign.driver_id && assign.vehicle_id == this.selectedAssign.vehicle_id) {
+        flag = true
+        return true 
+      }
+      if(!flag) index = index + 1 
+    })
+    if(find.length>0) return index
+    else return -1
+ }
+
   saveAssign() {
     if (
       this.selectedAssign.horarios.length == 0 ||
       !this.selectedAssign.driver_id ||
-      !this.selectedAssign.vehicle_id ||
-      !this.selectedAssign.start_date ||
-      !this.selectedAssign.end_date
+      !this.selectedAssign.vehicle_id 
     ) {
       Swal.fire({
         icon: 'warning',
@@ -134,8 +131,31 @@ export class RouteAssignComponent implements OnInit {
     } else {
       this.isEdit = false;
       this.isAdd = false;
-      if (this.selectedAssign.id) {
-        this.httpClient
+
+      if(this.find()>=0){
+        this.editAssign()
+      }else{
+        this.addAssign()
+      }
+    }
+  }
+
+  addAssign(){
+    this.httpClient
+          .post<Driver>(environment.apiUrl + '/assigns', this.selectedAssign)
+          .subscribe((data) => {
+            Swal.fire(
+              'Cambios Guardados!',
+              'La operación fue exitosa!',
+              'success'
+            ).then(() => {
+              window.location.reload();
+            });
+          });
+  }
+
+  editAssign(){
+    this.httpClient
           .put<Assign>(
             environment.apiUrl + '/assigns' + '/' + this.selectedAssign.id,
             this.selectedAssign
@@ -149,21 +169,9 @@ export class RouteAssignComponent implements OnInit {
               window.location.reload();
             });
           });
-      } else {
-        this.httpClient
-          .post<Driver>(environment.apiUrl + '/assigns', this.selectedAssign)
-          .subscribe((data) => {
-            Swal.fire(
-              'Cambios Guardados!',
-              'La operación fue exitosa!',
-              'success'
-            ).then(() => {
-              window.location.reload();
-            });
-          });
-      }
-    }
   }
+
+
   addHorario() {
     if (
       this.horario.road &&
@@ -195,30 +203,23 @@ export class RouteAssignComponent implements OnInit {
       });
     }
   }
-  containsObject(obj, list) {
-    var i;
-    for (i = 0; i < list.length; i++) {
-      if (list[i] === obj) {
-        return true;
-      }
-    }
-    return false;
-  }
+  
   removeHorario(index) {
-    if (this.selectedAssign.horarios.length == 1) {
-      this.selectedAssign.horarios = [];
-    } else {
-      this.selectedAssign.horarios = this.selectedAssign.horarios.splice(
-        index,
-        1
-      );
-    }
+    this.selectedAssign.horarios.splice(index,1)
   }
 
   selectAssign(i) {
     this.isEdit = true;
     this.isAdd = false;
     this.selectedAssign = this.assigns[i];
+    
     this.selectedAssign.driver_id = this.assigns[i].driver_id;
+  }
+
+  disabled(){
+    if(this.selectedAssign.driver_id && this.selectedAssign.vehicle_id){
+      this.control = true
+      if(this.find()>=0) this.selectAssign(this.find())
+    }  
   }
 }

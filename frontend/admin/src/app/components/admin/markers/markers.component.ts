@@ -20,6 +20,16 @@ export class MarkersComponent implements OnInit {
   zoom = 14;
   lng = -80.45873811700869;
   rutas: Ruta[] = [];
+
+
+  card: boolean[] = []
+  index = -1
+  btn_save: boolean = false
+  title:string = ''
+
+
+
+
   selectedMarker: Marker;
   markers: Marker[] = [];
   center: { lat: any; lng: any };
@@ -49,6 +59,7 @@ export class MarkersComponent implements OnInit {
       this.markers = [];
       rutas.forEach(async (ruta: Ruta) => {
         this.colors.push(await getRandomColor());
+        this.card.push(false)
       });
     });
   }
@@ -65,6 +76,7 @@ export class MarkersComponent implements OnInit {
       lng: this.center.lng,
     };
     this.isNew = true;
+    this.title = 'Guardar Punto'
     this.isEditing = false;
     this.isShow = false;
   }
@@ -112,6 +124,7 @@ export class MarkersComponent implements OnInit {
     this.isShow = false;
     this.isNew = false;
     this.isEditing = true;
+    this.title = 'Editar Punto'
     this.zoom = 18;
   }
 
@@ -130,11 +143,17 @@ export class MarkersComponent implements OnInit {
   }
 
   showMarkersOfRuta(i: number) {
+    this.isEditing = this.isNew = false
     this.color = this.colors[i];
     this.allowEdit = true;
     this.selectedRutaView = this.rutas[i];
     this.markers = [];
     this.markers = this.rutas[i].markers;
+    if(this.index>-1) this.card[this.index] = false
+    this.card[i] = true
+    this.index = i
+    if(typeof this.rutas[i].markers == 'undefined') this.btn_save = true
+    else this.btn_save = false
   }
 
   removeMarker(index) {

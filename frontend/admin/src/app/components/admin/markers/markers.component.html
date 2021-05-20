@@ -72,31 +72,83 @@
   </div>
   <div style="max-width: 25%">
     <h4>Puntos de recolección:</h4>
-    <p>Seleccione una ruta para manipular sus puntos de recolección</p>
+    <p>Seleccione una ruta para establecer su punto de recolección.</p>
     <hr />
     <ul class="list-group">
       <li
         class="list-group-item d-flex"
         *ngFor="let ruta of rutas; let i = index"
       >
-        <div
-          class="flex-grow-1 text-center"
-          [style.border-bottom]="'1px solid ' + colors[i]"
-        >
-          {{ ruta.name }}
-        </div>
-        <div class="btn-toolbar" role="toolbar" aria-label="Acciones de ruta">
-          <div class="btn-group mr-2" role="group">
-            <button
-              class="badge btn btn-primary"
-              (click)="showMarkersOfRuta(i)"
-            >
-              <i class="fa fa-eye"></i>&nbsp;Ver puntos
-            </button>
+
+
+
+
+        <div [className]="card[i] ? 'd-flex direction' : 'd-flex direction-r' ">
+        <!--  <div class="d-flex"> -->
+          <div
+            [className]="card[i] ? 'flex-grow-1 text-center no-border' : 'flex-grow-1 text-center txt ' "
+            
+            [style.border-bottom]="'1px solid ' + colors[i]"
+          >
+            {{ ruta.name }}
           </div>
+          <div class="btn-toolbar" role="toolbar" aria-label="Acciones de ruta">
+            <div class="btn-group mr-2" role="group">
+              <button
+                class="badge btn btn-primary"
+                (click)="showMarkersOfRuta(i)"
+              >
+                <i class="fa fa-eye"></i>&nbsp;Ver puntos
+              </button>
+            </div>
+          </div>
+        <!-- </div> -->
         </div>
+
+        <div>
+          <ul class="list-group" *ngIf="card[i]">
+            <li
+              class="list-group-item d-flex align-content-center justify-content-end"
+              style="flex-direction: column !important;"
+              *ngFor="let marker of markers; let i = index"
+            >
+              <div class="btn-group mr-2" role="group">
+                <button class="badge btn btn-primary" (click)="showMarker(i)">
+                  <i class="fa fa-eye"></i>
+                </button>
+                <button
+                  class="badge btn btn-warning"
+                  (click)="editMarker(i)"
+                  *ngIf="allowEdit"
+                >
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button
+                  class="badge btn btn-danger"
+                  (click)="removeMarker(i)"
+                  *ngIf="allowEdit"
+                >
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+              <div>
+                <span class="mr-1 flex-grow-1 text-center">
+                  {{ marker.description }}
+                </span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
       </li>
+      
     </ul>
+
+    
+
+
+
+    
     <hr />
     <div
       class="btn-group mr-2"
@@ -104,14 +156,28 @@
       *ngIf="selectedRutaView"
       style="display: inline-grid"
     >
-      <strong>
+       <strong>
         {{ selectedRutaView.name }}
-      </strong>
+       </strong>
+    </div>
+    <div *ngIf="btn_save">
       <button class="badge btn btn-primary" (click)="createMarker()">
-        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Crear nuevo
+        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Crear nuevo Punto
       </button>
     </div>
-    <div class="form-group mt-1 mb-0" *ngIf="selectedMarker">
+    
+    
+    <!-- <button class="badge btn btn-primary" (click)="createMarker()">
+      <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Crear nuevo
+    </button> -->
+    
+    
+    
+    
+    
+    <!-- <div class="form-group mt-1 mb-0" *ngIf="selectedMarker"> -->
+      <div class="form-group mt-1 mb-0" *ngIf="isNew || isEditing">
+      <hr>
       <h6>
         {{ selectedMarker.title }}
       </h6>
@@ -135,21 +201,25 @@
           <button
             type="button"
             class="btn btn-primary"
+            [className]="btn_save ? 'btn btn-primary' : 'btn btn-success' "
             [disabled]="
               (!selectedMarker.description ||
                 !selectedMarker.title ||
-                isShow) &&
+                isShow) && 
               !selectedMarker.description != 'Cargando...'
             "
             (click)="saveMarker()"
           >
             <i class="fa fa-save" aria-hidden="true"></i>
-            &nbsp;Guardar
+            &nbsp; {{title}}
           </button>
         </div>
       </div>
     </div>
-    <hr *ngIf="selectedRutaView" />
+
+
+
+    <!-- <hr *ngIf="selectedRutaView" />
     <ul class="list-group">
       <li
         class="list-group-item d-flex align-content-center justify-content-end"
@@ -178,6 +248,6 @@
           {{ marker.description }}
         </span>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </div>

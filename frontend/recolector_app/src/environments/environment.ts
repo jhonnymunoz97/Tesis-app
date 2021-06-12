@@ -12,8 +12,23 @@ export const environment = {
     appId: "1:1161834233:web:05d4c0a839d9992a88bc28",
     measurementId: "G-FEQ09MLQJH",
   },
-  apiURL: "http://localhost/PROYECTO/backend/api/public/",
+
+  /* firebaseConfig: {
+    apiKey: "AIzaSyBcGSPOdroEgH-HISTinEyzfN0pjKrcEWU",
+    authDomain: "recolector-6334b.firebaseapp.com",
+    databaseURL: "https://recolector-6334b-default-rtdb.firebaseio.com",
+    projectId: "recolector-6334b",
+    storageBucket: "recolector-6334b.appspot.com",
+    messagingSenderId: "344277953758",
+    appId: "1:344277953758:web:8db5f9e08621120ff2664f",
+    measurementId: "G-8F1LL03FMV"
+  }, */
+
+  //apiURL: "http://localhost/PROYECTO/backend/api/public/",
+
+  apiURL: "http://127.0.0.1:8000/",
   production: false,
+  
 };
 
 /*

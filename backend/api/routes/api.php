@@ -40,7 +40,8 @@ Route::group(['middleware' => 'api'], function () {
         ], 200);
     });
     Route::post('login', [AuthController::class, 'login'])->name('login');
-    Route::post('driver-login', [DriverController::class, 'login'])->name('driver-login');
+    //Route::post('driver-login', [DriverController::class, 'login'])->name('driver-login');
+    Route::post('driver-login', [DriverController::class, 'loginDriver'])->name('driver-login');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 /**Protegidas */

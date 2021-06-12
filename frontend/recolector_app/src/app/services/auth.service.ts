@@ -24,8 +24,9 @@ export class AuthService {
   }
 
   login(dni: string, password: string) {
+    //console.log(dni + '\n' + password)
     return this.http
-      .post<any>(`${environment.apiURL}driver-login`, {
+      .post<any>(`${environment.apiURL}login`, {
         dni: dni,
         password: password,
       })

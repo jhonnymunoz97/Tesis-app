@@ -12,7 +12,8 @@ export const environment = {
     appId: "1:1161834233:web:05d4c0a839d9992a88bc28",
     measurementId: "G-FEQ09MLQJH",
   },
-  apiURL: "http://localhost/PROYECTO/backend/api/public/",
+  //apiURL: "http://localhost/PROYECTO/backend/api/public/",
+  apiURL: "http://127.0.0.1:8000",
   production: false,
 };
 

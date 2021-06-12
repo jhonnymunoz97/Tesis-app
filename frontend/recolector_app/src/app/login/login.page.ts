@@ -45,13 +45,14 @@ export class LoginPage implements OnInit {
   login() {
     if (!this.loginForm.valid) {
     } else {
-      this.authService;
+      //this.authService;
       this.authService
         .login(this.loginForm.value.dni, this.loginForm.value.password)
         .pipe(first())
         .subscribe(
           (data) => {
             this.router.navigate([this.returnUrl]);
+            //this.router.navigate(['/']);
           },
           (error) => {
             this.error = error;
